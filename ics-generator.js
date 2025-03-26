@@ -1,6 +1,13 @@
 // 날짜 선택기 초기화 (flatpickr)
 flatpickr(".datepicker", {
     dateFormat: "Y-m-d", // 날짜 형식 설정
+    allowInput: true, // 수동 입력 허용
+});
+
+// 슬라이더 값 변화 시 업데이트
+document.getElementById("repeatCount").addEventListener("input", function() {
+    // 슬라이더 값에 따라 표시된 값 업데이트
+    document.getElementById("repeatCountValue").textContent = this.value + "년";
 });
 
 // 입력 값이 변경될 때마다 모든 항목이 입력되었는지 확인
