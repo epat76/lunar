@@ -1,10 +1,9 @@
-// 날짜 선택기 초기화 (flatpickr 제거)
-// 음력날짜를 양력날짜로 변환하는 함수 추가
+// 음력 날짜를 입력하면 자동으로 양력 날짜를 계산하여 표시하는 함수
 function updateSolarDate() {
     var lunarDate = document.getElementById("startDate").value;
 
     if (lunarDate) {
-        // 음력 날짜 -> 양력 날짜 변환 (여기서는 단순히 음력 날짜를 그대로 표시하고 있으므로 실제 변환 로직을 구현해야 함)
+        // 음력 날짜 -> 양력 날짜 변환 (예시로 음력 날짜 그대로 반환)
         var solarDate = convertLunarToSolar(lunarDate);
         document.getElementById("solarDate").value = solarDate; // 양력 날짜 업데이트
     } else {
@@ -12,10 +11,10 @@ function updateSolarDate() {
     }
 }
 
-// 음력 날짜 -> 양력 날짜 변환 로직 (여기서는 음력 날짜를 그대로 반환하는 예시로 설정됨)
+// 음력 날짜를 양력 날짜로 변환하는 함수 (예시로 음력 날짜 그대로 반환)
 function convertLunarToSolar(lunarDate) {
     // 실제 음력 -> 양력 변환 로직을 여기에 구현해야 합니다.
-    // 예시로 단순히 날짜를 그대로 반환
+    // 여기서는 단순히 음력 날짜를 그대로 양력 날짜로 반환합니다.
     return lunarDate; // 실제 음력 -> 양력 변환 코드가 필요합니다.
 }
 
