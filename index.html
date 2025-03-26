@@ -34,20 +34,8 @@
             border-radius: 5px;
         }
 
-        /* 일정 제목과 음력 날짜 입력란 크기 수정 */
-        #eventTitle, #startDate {
+        #eventTitle, #startDate, #solarDate {
             width: 300px; /* 적절한 크기로 고정 */
-        }
-
-        /* 반복 횟수 슬라이더 크기 수정 */
-        #repeatCount {
-            width: 100px;
-        }
-
-        #repeatCountValue {
-            font-weight: bold;
-            display: inline-block;
-            margin-left: 10px;
         }
 
         button {
@@ -79,17 +67,6 @@
         #downloadLink button:hover {
             background-color: #0b79d0;
         }
-
-        /* 흐린 글자색을 설정 */
-        .input-placeholder {
-            color: #bbb;
-        }
-
-        /* 양력 날짜 표시 */
-        #solarDate {
-            margin-top: 10px;
-            font-weight: bold;
-        }
     </style>
 </head>
 <body>
@@ -105,7 +82,7 @@
     <input type="text" id="solarDate" readonly placeholder="양력 날짜 자동 계산" />
 
     <label for="repeatCount">반복 횟수:</label>
-    <input type="number" id="repeatCount" min="1" max="25" value="5" oninput="checkInputs()" class="input-placeholder">
+    <input type="number" id="repeatCount" min="1" max="25" value="5" oninput="checkInputs()">
     
     <button onclick="generateICS()" id="generateBtn" disabled>ICS 파일 생성</button>
 
