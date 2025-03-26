@@ -84,6 +84,12 @@
         .input-placeholder {
             color: #bbb;
         }
+
+        /* 양력 날짜 표시 */
+        #solarDate {
+            margin-top: 10px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -93,7 +99,10 @@
     <input type="text" id="eventTitle" placeholder="예: 아빠 생일" oninput="checkInputs()">
 
     <label for="startDate">음력날짜:</label>
-    <input type="text" id="startDate" placeholder="예: 2024-12-25" oninput="checkInputs()">
+    <input type="text" id="startDate" placeholder="예: 2024-12-25" oninput="updateSolarDate(); checkInputs()">
+
+    <label for="solarDate">양력날짜:</label>
+    <input type="text" id="solarDate" readonly placeholder="양력 날짜 자동 계산" />
 
     <label for="repeatCount">반복 횟수:</label>
     <input type="number" id="repeatCount" min="1" max="25" value="5" oninput="checkInputs()" class="input-placeholder">
