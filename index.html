@@ -35,9 +35,14 @@
             border-radius: 5px;
         }
 
-        input[type="number"] {
+        /* 일정 제목과 음력 날짜 입력란 크기 수정 */
+        #eventTitle, #startDate {
+            width: 300px; /* 적절한 크기로 고정 */
+        }
+
+        /* 반복 횟수 슬라이더 크기 수정 */
+        #repeatCount {
             width: 100px;
-            margin-right: 10px;
         }
 
         #repeatCountValue {
@@ -93,8 +98,7 @@
 
     <label for="repeatCount">반복 횟수:</label>
     <input type="number" id="repeatCount" min="1" max="25" value="5" oninput="checkInputs()" class="input-placeholder">
-    <span id="repeatCountValue">
-
+    
     <button onclick="generateICS()" id="generateBtn" disabled>ICS 파일 생성</button>
 
     <div id="downloadLink" style="display: none;">
