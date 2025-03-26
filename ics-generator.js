@@ -1,14 +1,23 @@
-// 날짜 선택기 초기화 (flatpickr)
-flatpickr(".datepicker", {
-    dateFormat: "Y-m-d", // 날짜 형식 설정
-    allowInput: true, // 수동 입력 허용
-});
+// 날짜 선택기 초기화 (flatpickr 제거)
+// 음력날짜를 양력날짜로 변환하는 함수 추가
+function updateSolarDate() {
+    var lunarDate = document.getElementById("startDate").value;
 
-// 슬라이더 값 변화 시 업데이트
-document.getElementById("repeatCount").addEventListener("input", function() {
-    // 슬라이더 값에 따라 표시된 값 업데이트
-    document.getElementById("repeatCountValue").textContent = this.value + "년";
-});
+    if (lunarDate) {
+        // 음력 날짜 -> 양력 날짜 변환 (여기서는 단순히 음력 날짜를 그대로 표시하고 있으므로 실제 변환 로직을 구현해야 함)
+        var solarDate = convertLunarToSolar(lunarDate);
+        document.getElementById("solarDate").value = solarDate; // 양력 날짜 업데이트
+    } else {
+        document.getElementById("solarDate").value = ""; // 음력 날짜가 없으면 양력 날짜도 빈 값으로
+    }
+}
+
+// 음력 날짜 -> 양력 날짜 변환 로직 (여기서는 음력 날짜를 그대로 반환하는 예시로 설정됨)
+function convertLunarToSolar(lunarDate) {
+    // 실제 음력 -> 양력 변환 로직을 여기에 구현해야 합니다.
+    // 예시로 단순히 날짜를 그대로 반환
+    return lunarDate; // 실제 음력 -> 양력 변환 코드가 필요합니다.
+}
 
 // 입력 값이 변경될 때마다 모든 항목이 입력되었는지 확인
 function checkInputs() {
@@ -59,12 +68,6 @@ function generateICS() {
     var downloadLink = document.getElementById("downloadLink");
     downloadLink.href = url;
     downloadLink.style.display = "block"; // 다운로드 버튼 보이기
-}
-
-function convertLunarToSolar(lunarDate) {
-    // 여기에 음력 -> 양력 변환 로직을 구현합니다.
-    // 예시로 단순히 월과 일을 반환합니다. (여기서는 간단화하기 위해 음력을 양력으로 변환하는 코드를 추가해야 합니다)
-    return lunarDate; // 실제 음력 -> 양력 변환 코드가 필요합니다
 }
 
 function formatDateForICS(date) {
