@@ -1,3 +1,14 @@
+// 날짜 선택기 초기화 (flatpickr)
+flatpickr(".datepicker", {
+    dateFormat: "Y-m-d", // 날짜 형식 설정
+});
+
+// 슬라이더 값 변화 시 업데이트
+document.getElementById("repeatCount").addEventListener("input", function() {
+    document.getElementById("repeatCountValue").textContent = this.value;
+});
+
+// ICS 파일 생성 함수
 function generateICS() {
     // 사용자 입력 가져오기
     var eventTitle = document.getElementById("eventTitle").value;
