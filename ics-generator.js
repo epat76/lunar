@@ -2,16 +2,23 @@
 function updateSolarDate() {
     var lunarDate = document.getElementById("startDate").value;
 
-    if (lunarDate) {
-        // 음력 날짜 -> 양력 날짜 변환 (예시로 음력 날짜 그대로 반환)
+    // 유효한 날짜 형식인지 체크 (yyyy-mm-dd 형식)
+    if (isValidLunarDate(lunarDate)) {
+        // 음력 날짜 -> 양력 날짜 변환
         var solarDate = convertLunarToSolar(lunarDate);
         document.getElementById("solarDate").value = solarDate; // 양력 날짜 업데이트
     } else {
-        document.getElementById("solarDate").value = ""; // 음력 날짜가 없으면 양력 날짜도 빈 값으로
+        document.getElementById("solarDate").value = "올바른 음력 날짜를 입력하세요"; // 유효하지 않은 날짜
     }
 }
 
-// 음력 날짜를 양력 날짜로 변환하는 함수 (예시로 음력 날짜 그대로 반환)
+// 음력 날짜가 유효한지 확인하는 함수 (yyyy-mm-dd 형식)
+function isValidLunarDate(date) {
+    var regex = /^\d{4}-\d{2}-\d{2}$/;
+    return regex.test(date); // yyyy-mm-dd 형식일 경우 true 반환
+}
+
+// 음력 날짜를 양력 날짜로 변환하는 함수 (여기서는 예시로 음력 날짜를 그대로 반환)
 function convertLunarToSolar(lunarDate) {
     // 실제 음력 -> 양력 변환 로직을 여기에 구현해야 합니다.
     // 여기서는 단순히 음력 날짜를 그대로 양력 날짜로 반환합니다.
