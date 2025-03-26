@@ -18,10 +18,12 @@ function isValidLunarDate(date) {
     return regex.test(date); // yyyy-mm-dd 형식일 경우 true 반환
 }
 
-// 음력 날짜를 양력 날짜로 변환하는 함수 (여기서는 예시로 음력 날짜를 그대로 반환)
+// 음력 날짜를 양력 날짜로 변환하는 함수
 function convertLunarToSolar(lunarDate) {
     // 실제 음력 -> 양력 변환 로직을 여기에 구현해야 합니다.
-    // 여기서는 단순히 음력 날짜를 그대로 양력 날짜로 반환합니다.
+    // 예시로 음력 날짜 그대로 양력 날짜로 반환합니다 (실제 변환 로직을 추가해야 합니다).
+    
+    // 양력 날짜로 변환하는 간단한 예시 (이 부분은 실제 변환 코드로 대체해야 함)
     return lunarDate; // 실제 음력 -> 양력 변환 코드가 필요합니다.
 }
 
