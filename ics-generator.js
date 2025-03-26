@@ -57,15 +57,19 @@ function generateICS() {
         // ICS 이벤트 추가
         icsContent += "BEGIN:VEVENT\n";
         icsContent += "SUMMARY:" + eventTitle + "\n";
-        icsContent += "DTSTART:" + startDateFormatted + "\n";
-        icsContent += "DTEND:" + startDateFormatted + "\n";
-        icsContent += "RRULE:FREQ=YEARLY\n"; // 매년 반복
-        icsContent += "END:VEVENT\n";
+        icsContent += "DTSTART:" + startDateFormatted + "\n"; // 시작 날짜
+        icsContent += "DTEND:" + startDateFormatted + "\n";    // 종료 날짜
+
+        // 매년 반복 규칙 추가
+        icsContent += "RRULE:FREQ=YEARLY\n";
 
         // 음력 날짜를 1년 뒤로 이동
         startDate = moveToNextYear(startDate);
+
+        icsContent += "END:VEVENT\n";
     }
 
+    // ICS 파일 종료
     icsContent += "END:VCALENDAR\n";
     
     // 생성된 ICS 파일 다운로드 링크 설정
