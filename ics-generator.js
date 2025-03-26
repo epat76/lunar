@@ -3,10 +3,19 @@ flatpickr(".datepicker", {
     dateFormat: "Y-m-d", // 날짜 형식 설정
 });
 
-// 슬라이더 값 변화 시 업데이트
-document.getElementById("repeatCount").addEventListener("input", function() {
-    document.getElementById("repeatCountValue").textContent = this.value;
-});
+// 입력 값이 변경될 때마다 모든 항목이 입력되었는지 확인
+function checkInputs() {
+    var eventTitle = document.getElementById("eventTitle").value;
+    var startDate = document.getElementById("startDate").value;
+    var repeatCount = document.getElementById("repeatCount").value;
+
+    // 모든 입력 값이 올바르게 입력되었으면 버튼 활성화
+    if (eventTitle && startDate && repeatCount && repeatCount >= 1 && repeatCount <= 25) {
+        document.getElementById("generateBtn").disabled = false;
+    } else {
+        document.getElementById("generateBtn").disabled = true;
+    }
+}
 
 // ICS 파일 생성 함수
 function generateICS() {
