@@ -1,95 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>음력 반복일정 ICS 생성</title>
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
-            padding: 20px;
-        }
-
-        h1 {
-            font-size: 24px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        label {
-            font-size: 16px;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        input, button {
-            padding: 10px;
-            font-size: 16px;
-            width: 100%;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        #eventTitle, #startDate, #solarDate {
-            width: 300px; /* 적절한 크기로 고정 */
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        button:disabled {
-            background-color: #ccc;
-        }
-
-        #downloadLink {
-            display: block;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        #downloadLink button {
-            background-color: #2196F3;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        #downloadLink button:hover {
-            background-color: #0b79d0;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>음력반복일정 ICS생성</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>음력 반복일정 ICS 생성</h1>
+  <div class="container">
+    <h1>음력반복일정 ICS생성</h1>
 
-    <label for="eventTitle">일정 제목:</label>
-    <input type="text" id="eventTitle" placeholder="예: 아빠 생일" oninput="checkInputs()">
+    <label for="event-title">일정 제목</label>
+    <input id="event-title" type="text" placeholder="예: 아빠생일">
 
-    <label for="startDate">음력날짜:</label>
-    <input type="text" id="startDate" placeholder="예: 2024-12-25" oninput="updateSolarDate(); checkInputs()">
+    <label for="lunar-date">음력 날짜</label>
+    <input id="lunar-date" type="date" placeholder="예: 2024-12-25">
 
-    <label for="solarDate">양력날짜:</label>
-    <input type="text" id="solarDate" readonly placeholder="양력 날짜 자동 계산" />
+    <label><input id="is-leap" type="checkbox"> 윤달</label>
 
-    <label for="repeatCount">반복 횟수:</label>
-    <input type="number" id="repeatCount" min="1" max="25" value="5" oninput="checkInputs()">
-    
-    <button onclick="generateICS()" id="generateBtn" disabled>ICS 파일 생성</button>
+    <label for="end-year">일정 종료</label>
+    <select id="end-year">
+      <option value="">-- 연도 선택 --</option>
+    </select>
 
-    <div id="downloadLink" style="display: none;">
-        <button>ICS 파일 다운로드</button>
-    </div>
+    <label for="converted-list">양력 변환 결과</label>
+    <textarea id="converted-list" rows="6" readonly></textarea>
 
-    <script src="ics-generator.js"></script>
+    <button id="download-btn" disabled>ICS 다운로드</button>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
