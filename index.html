@@ -25,6 +25,8 @@
         <option value="">일</option>
       </select>
 
+      <button id="calendar-toggle" style="padding: 6px 10px; font-size: 0.9rem;">📅</button>
+
       <label style="display: flex; align-items: center; gap: 6px; white-space: nowrap;">
         <input id="is-leap" type="checkbox"> 윤달
       </label>
@@ -42,14 +44,7 @@
 
     <button id="download-btn" disabled>ICS 다운로드</button>
 
-    <label for="calendar-year">달력 연도</label>
-    <label for="calendar-month">달력 월</label>
-    <div id="calendar-nav">
-      <select id="calendar-year"></select>
-      <select id="calendar-month"></select>
-    </div>
-
-    <div id="calendar"></div>
+    <div id="calendar" style="display: none;"></div>
   </div>
 
   <script src="script.js"></script>
