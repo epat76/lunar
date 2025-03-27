@@ -92,13 +92,19 @@ button:hover:not(:disabled) {
 
 #calendar-nav {
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   gap: 12px;
   margin-top: 32px;
   margin-bottom: 8px;
 }
 
 #calendar-nav select {
-  flex: 1 1 50%;
+  width: 100%;
+  min-width: 100px;
+  display: block;
+  box-sizing: border-box;
   padding: 10px;
   font-size: 1rem;
   border-radius: 8px;
