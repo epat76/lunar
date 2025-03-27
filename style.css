@@ -10,7 +10,7 @@ body {
   margin: auto;
   background: white;
   padding: 24px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
 }
 
@@ -25,7 +25,10 @@ label {
   font-weight: bold;
 }
 
-input, select, textarea, button {
+input,
+select,
+textarea,
+button {
   font-size: 14px;
   padding: 8px;
   margin-top: 6px;
@@ -58,10 +61,14 @@ button:disabled {
   align-items: center;
   gap: 8px;
   margin-top: 8px;
+  position: relative;
 }
 
-#lunar-year, #lunar-month, #lunar-day {
+#lunar-year,
+#lunar-month,
+#lunar-day {
   width: 90px;
+  min-width: 70px;
 }
 
 #calendar-toggle {
@@ -88,24 +95,41 @@ button:disabled {
   max-width: 200px;
 }
 
+/* 달력 기본 스타일 */
 #calendar {
-  margin-top: 20px;
+  margin-top: 6px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+  background: #fff;
+  border: 1px solid #ccc;
+  width: 100%;
+  padding: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  display: none;
 }
 
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 4px;
+  margin-top: 8px;
 }
 
 .calendar-grid div {
   border: 1px solid #ccc;
   text-align: center;
-  padding: 6px;
+  padding: 10px 0;
   font-size: 13px;
   cursor: pointer;
+  background-color: white;
 }
 
 .calendar-grid div:hover {
   background-color: #e3f2fd;
+}
+
+.calendar-grid div > div:last-child {
+  display: none; /* 음력 2줄 텍스트 제거 */
 }
