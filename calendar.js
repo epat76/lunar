@@ -91,4 +91,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const lunarMonth = document.getElementById('lunar-month');
   lunarYear.value = today.getFullYear();
   lunarMonth.value = today.getMonth() + 1;
+
+  // UI 폭 조정
+  lunarYear.style.maxWidth = '90px';
+  lunarMonth.style.maxWidth = '70px';
+  document.getElementById('lunar-day').style.maxWidth = '70px';
+
+  // '양력 기준'이 음력 필드 오른쪽 끝에 표시되도록 이동
+  const lunarRow = lunarYear.closest('div');
+  lunarRow.style.flexWrap = 'nowrap';
+  lunarRow.style.alignItems = 'center';
+  document.getElementById('converted-date-label').style.marginLeft = 'auto';
 });
