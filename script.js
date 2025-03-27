@@ -71,6 +71,12 @@ window.onload = async function () {
     });
   });
 
+  // 📅 달력 아이콘 클릭 시 토글
+  document.getElementById('calendar-toggle').addEventListener('click', () => {
+    const calendar = document.getElementById('calendar');
+    calendar.style.display = calendar.style.display === 'none' ? 'block' : 'none';
+  });
+
   // 다운로드 버튼 클릭
   downloadBtn.addEventListener('click', () => {
     const title = document.getElementById('event-title').value.trim();
@@ -106,16 +112,24 @@ function updateConvertedList() {
   const month = document.getElementById('lunar-month').value;
   const day = document.getElementById('lunar-day').value;
   const isLeap = document.getElementById('is-leap').checked;
-  const endYear = parseInt(document.getElementById('end-year').value);
+  const endYearRaw = document.getElementById('end-year').value;
   const convertedArea = document.getElementById('converted-list');
   const convertedDateLabel = document.getElementById('converted-date-label');
 
-  if (!year || !month || !day || !endYear) {
-    convertedArea.value = '';
+  const baseLunar = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  const baseMatch = lunarData.find(d => d.lunar === baseLunar && d.leap === isLeap);
+  if (baseMatch) {
+    convertedDateLabel.textContent = `→ 양력 기준: ${baseMatch.solar}`;
+  } else {
     convertedDateLabel.textContent = '';
+  }
+
+  if (!year || !month || !day || !endYearRaw) {
+    convertedArea.value = '';
     return;
   }
 
+  const endYear = parseInt(endYearRaw);
   const results = [];
   for (let y = parseInt(year); y <= endYear; y++) {
     const targetLunar = `${y}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
@@ -124,12 +138,6 @@ function updateConvertedList() {
   }
 
   convertedArea.value = results.join('\n');
-
-  if (results.length > 0) {
-    convertedDateLabel.textContent = `→ 양력 기준: ${results[0]}`;
-  } else {
-    convertedDateLabel.textContent = '해당 음력 날짜의 양력 변환 결과 없음';
-  }
 }
 
 function generateICS(title, solarDates) {
