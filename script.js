@@ -27,6 +27,39 @@ window.onload = async function () {
     el.addEventListener('change', checkInputs);
   });
 
+  function updateConvertedList() {
+  const lunar = document.getElementById('lunar-date').value;
+  const isLeap = document.getElementById('is-leap').checked;
+  const endYear = parseInt(document.getElementById('end-year').value);
+  const convertedArea = document.getElementById('converted-list');
+  const convertedDateLabel = document.getElementById('converted-date-label');
+
+  if (!lunar) {
+    convertedArea.value = '';
+    convertedDateLabel.textContent = '';
+    return;
+  }
+
+  const [year, month, day] = lunar.split('-').map(Number);
+  const results = [];
+
+  for (let y = year; y <= endYear; y++) {
+    const targetLunar = `${y}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const match = lunarData.find(d => d.lunar === targetLunar && d.leap === isLeap);
+    if (match) results.push(match.solar);
+  }
+
+  // 변환 결과 출력
+  convertedArea.value = results.join('\n');
+
+  // 현재 입력한 음력 날짜의 첫 변환값만 상단에 보여줌
+  if (results.length > 0) {
+    convertedDateLabel.textContent = `→ 양력 기준: ${results[0]}`;
+  } else {
+    convertedDateLabel.textContent = '해당 음력 날짜의 양력 변환 결과 없음';
+  }
+}
+  
   function checkInputs() {
     const title = document.getElementById('event-title').value.trim();
     const lunar = lunarInput.value;
