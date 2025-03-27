@@ -1,10 +1,7 @@
 // calendar.js
-let lunarData = [];
 
 async function initCalendar() {
-  const res = await fetch('lunar_to_solar.json');
-  lunarData = await res.json();
-
+  // lunarData는 script.js에서 이미 전역으로 선언 및 로드됨
   const today = new Date();
   const thisYear = today.getFullYear();
   const thisMonth = today.getMonth() + 1;
