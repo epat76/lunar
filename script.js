@@ -2,7 +2,6 @@
 let lunarData = [];
 
 window.onload = async function () {
-  // JSON 데이터 불러오기
   const res = await fetch('lunar_to_solar.json');
   lunarData = await res.json();
 
@@ -25,7 +24,7 @@ window.onload = async function () {
     monthSelect.innerHTML += `<option value="${m}">${m}</option>`;
   }
 
-  // 연/월 변경 시 일자 옵션 업데이트
+  // 연/월/윤달 변경 시 일자 옵션 업데이트
   yearSelect.addEventListener('change', updateDays);
   monthSelect.addEventListener('change', updateDays);
   leapInput.addEventListener('change', updateDays);
