@@ -5,9 +5,37 @@ async function initCalendar() {
   const res = await fetch('lunar_to_solar.json');
   lunarData = await res.json();
 
-  const calendarEl = document.getElementById('calendar');
   const today = new Date();
+  initCalendarSelectors(today.getFullYear(), today.getMonth() + 1);
   renderCalendar(today.getFullYear(), today.getMonth() + 1);
+}
+
+function initCalendarSelectors(selectedYear, selectedMonth) {
+  const yearSelect = document.getElementById('calendar-year');
+  const monthSelect = document.getElementById('calendar-month');
+
+  yearSelect.innerHTML = '';
+  for (let y = 1881; y <= 2100; y++) {
+    yearSelect.innerHTML += `<option value="${y}" ${y === selectedYear ? 'selected' : ''}>${y}년</option>`;
+  }
+
+  monthSelect.innerHTML = '';
+  for (let m = 1; m <= 12; m++) {
+    monthSelect.innerHTML += `<option value="${m}" ${m === selectedMonth ? 'selected' : ''}>${m}월</option>`;
+  }
+
+  yearSelect.addEventListener('change', () => {
+    renderCalendar(
+      parseInt(yearSelect.value),
+      parseInt(monthSelect.value)
+    );
+  });
+  monthSelect.addEventListener('change', () => {
+    renderCalendar(
+      parseInt(yearSelect.value),
+      parseInt(monthSelect.value)
+    );
+  });
 }
 
 function renderCalendar(year, month) {
