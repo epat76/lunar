@@ -1,105 +1,63 @@
-// calendar.js
+console.log('✅ calendar.js loaded');
 
-async function initCalendar() {
-  console.log('✅ calendar.js loaded');
+function initCalendar(lunarData) {
+  const toggle = document.getElementById('calendar-toggle');
+  const calendarDiv = document.getElementById('calendar');
+
+  toggle.addEventListener('click', () => {
+    calendarDiv.style.display = calendarDiv.style.display === 'none' ? 'block' : 'none';
+  });
+
   const today = new Date();
-  const thisYear = today.getFullYear();
-  const thisMonth = today.getMonth() + 1;
-
-  renderCalendar(thisYear, thisMonth);
-
-  const toggleBtn = document.getElementById('calendar-toggle');
-  if (toggleBtn) {
-    toggleBtn.addEventListener('click', () => {
-      const calendar = document.getElementById('calendar');
-      if (calendar) {
-        calendar.style.display = (calendar.style.display === 'none' || calendar.style.display === '') ? 'block' : 'none';
-      }
-    });
-  }
+  renderCalendar(today.getFullYear(), today.getMonth() + 1, lunarData);
 }
 
-function renderCalendar(year, month) {
-  const calendarEl = document.getElementById('calendar');
-  calendarEl.innerHTML = '';
-
-  const firstDay = new Date(year, month - 1, 1);
-  const startDay = firstDay.getDay();
+function renderCalendar(year, month, lunarData) {
+  const calendar = document.getElementById('calendar');
+  calendar.innerHTML = '';
+  const firstDay = new Date(year, month - 1, 1).getDay();
   const lastDate = new Date(year, month, 0).getDate();
 
-  const header = document.createElement('div');
-  header.className = 'calendar-header';
-  header.innerHTML = `<strong>${year}년 ${month}월</strong>`;
-  calendarEl.appendChild(header);
-
+  const weekdays = ['일','월','화','수','목','금','토'];
   const grid = document.createElement('div');
   grid.className = 'calendar-grid';
 
-  const days = ['일', '월', '화', '수', '목', '금', '토'];
-  days.forEach(d => {
+  weekdays.forEach(d => {
     const cell = document.createElement('div');
-    cell.className = 'calendar-cell calendar-day-label';
+    cell.style.fontWeight = 'bold';
     cell.textContent = d;
     grid.appendChild(cell);
   });
 
-  for (let i = 0; i < startDay; i++) {
-    const empty = document.createElement('div');
-    empty.className = 'calendar-cell';
-    grid.appendChild(empty);
+  for (let i = 0; i < firstDay; i++) {
+    grid.appendChild(document.createElement('div'));
   }
 
-  for (let d = 1; d <= lastDate; d++) {
-    const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+  for (let date = 1; date <= lastDate; date++) {
     const cell = document.createElement('div');
-    cell.className = 'calendar-cell';
-    cell.innerHTML = `<div class="solar-date">${d}</div>`;
+    const solarStr = `${year}-${String(month).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
+    const match = lunarData.find(d => d.solar === solarStr);
+    const lunarText = (match && date % 5 === 0)
+      ? `${match.leap ? '(윤)' : ''}${parseInt(match.lunar.split('-')[1])}/${parseInt(match.lunar.split('-')[2])}`
+      : '';
 
-    const lunar = lunarData.find(l => l.solar === dateStr);
-    if (lunar && d % 5 === 0) {
-      const lunarLabel = `${lunar.leap ? '(윤)' : ''}${parseInt(lunar.lunar.split('-')[1])}/${parseInt(lunar.lunar.split('-')[2])}`;
-      const lunarDiv = document.createElement('div');
-      lunarDiv.className = 'lunar-date';
-      lunarDiv.textContent = lunarLabel;
-      cell.appendChild(lunarDiv);
-    }
+    cell.innerHTML = `<div>${date}</div><div style="font-size: 0.7em; color: #666;">${lunarText}</div>`;
+    cell.style.cursor = 'pointer';
 
-    cell.addEventListener('click', () => {
-      if (lunar) {
-        const [ly, lm, ld] = lunar.lunar.split('-');
+    if (match) {
+      cell.addEventListener('click', () => {
+        const [ly, lm, ld] = match.lunar.split('-').map(Number);
         document.getElementById('lunar-year').value = ly;
-        document.getElementById('lunar-month').value = parseInt(lm);
-        document.getElementById('lunar-day').value = parseInt(ld);
-        document.getElementById('is-leap').checked = lunar.leap;
-        updateDays();
-        updateConvertedList();
+        document.getElementById('lunar-month').value = lm;
+        document.getElementById('lunar-day').value = ld;
+        document.getElementById('is-leap').checked = match.leap;
         document.getElementById('calendar').style.display = 'none';
-      }
-    });
+        updateConvertedList();
+      });
+    }
 
     grid.appendChild(cell);
   }
 
-  calendarEl.appendChild(grid);
+  calendar.appendChild(grid);
 }
-
-initCalendar();
-
-document.addEventListener('DOMContentLoaded', () => {
-  const today = new Date();
-  const lunarYear = document.getElementById('lunar-year');
-  const lunarMonth = document.getElementById('lunar-month');
-  lunarYear.value = today.getFullYear();
-  lunarMonth.value = today.getMonth() + 1;
-
-  // UI 폭 조정
-  lunarYear.style.maxWidth = '90px';
-  lunarMonth.style.maxWidth = '70px';
-  document.getElementById('lunar-day').style.maxWidth = '70px';
-
-  // '양력 기준'이 음력 필드 오른쪽 끝에 표시되도록 이동
-  const lunarRow = lunarYear.closest('div');
-  lunarRow.style.flexWrap = 'nowrap';
-  lunarRow.style.alignItems = 'center';
-  document.getElementById('converted-date-label').style.marginLeft = 'auto';
-});
