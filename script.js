@@ -15,70 +15,64 @@ window.onload = async function () {
   const convertedArea = document.getElementById('converted-list');
   const convertedDateLabel = document.getElementById('converted-date-label');
 
-  // 연도 선택 구성
+  // 연도 초기화
   for (let y = 1881; y <= 2100; y++) {
     yearSelect.innerHTML += `<option value="${y}">${y}</option>`;
   }
 
-  // 월 선택 구성
+  // 월 초기화
   for (let m = 1; m <= 12; m++) {
-    monthSelect.innerHTML += `<option value="${m.toString().padStart(2, '0')}">${m}</option>`;
+    monthSelect.innerHTML += `<option value="${m}">${m}</option>`;
   }
 
-  // 연도 또는 월이 변경되면 해당 월의 말일을 계산해 일 선택 구성
-  function updateDayOptions() {
+  // 연/월 변경 시 일자 옵션 업데이트
+  yearSelect.addEventListener('change', updateDays);
+  monthSelect.addEventListener('change', updateDays);
+  leapInput.addEventListener('change', updateDays);
+
+  function updateDays() {
     const year = parseInt(yearSelect.value);
     const month = parseInt(monthSelect.value);
+    const isLeap = leapInput.checked;
+
     if (!year || !month) return;
 
-    const lunarMonthString = getLunarMonthString(year);
-    const monthCode = lunarMonthString[month - 1];
-    const lastDay = (monthCode === '2' || monthCode === '4') ? 30 : 29;
+    const targetPrefix = `${year}-${String(month).padStart(2, '0')}`;
+    const days = lunarData
+      .filter(d => d.lunar.startsWith(targetPrefix) && d.leap === isLeap)
+      .map(d => parseInt(d.lunar.split('-')[2]));
 
+    const maxDay = days.length > 0 ? Math.max(...days) : 30;
     daySelect.innerHTML = '<option value="">일 선택</option>';
-    for (let d = 1; d <= lastDay; d++) {
-      daySelect.innerHTML += `<option value="${d.toString().padStart(2, '0')}">${d}</option>`;
+    for (let d = 1; d <= maxDay; d++) {
+      daySelect.innerHTML += `<option value="${d}">${d}</option>`;
     }
+    updateConvertedList();
   }
 
+  // 종료연도 초기화 및 업데이트
   yearSelect.addEventListener('change', () => {
-    updateDayOptions();
-    updateEndYearOptions();
-    checkInputs();
-    updateConvertedList();
-  });
-
-  monthSelect.addEventListener('change', () => {
-    updateDayOptions();
-    checkInputs();
-    updateConvertedList();
-  });
-
-  daySelect.addEventListener('change', () => {
-    checkInputs();
-    updateConvertedList();
-  });
-
-  leapInput.addEventListener('change', () => {
-    checkInputs();
-    updateConvertedList();
-  });
-
-  endYearSelect.addEventListener('change', () => {
-    checkInputs();
-    updateConvertedList();
-  });
-
-  function updateEndYearOptions() {
-    const startYear = parseInt(yearSelect.value);
-    if (!startYear) return;
-
+    const year = parseInt(yearSelect.value);
+    if (!year) return;
     endYearSelect.innerHTML = '<option value="">-- 연도 선택 --</option>';
-    for (let y = startYear + 1; y <= 2100; y++) {
+    for (let y = year + 1; y <= 2100; y++) {
       endYearSelect.innerHTML += `<option value="${y}">${y}</option>`;
     }
-  }
+  });
 
+  // 입력값 변화 감지
+  document.querySelectorAll('input, select').forEach(el => {
+    el.addEventListener('input', () => {
+      checkInputs();
+      updateConvertedList();
+    });
+    el.addEventListener('change', () => {
+      checkInputs();
+      updateConvertedList();
+    });
+  });
+
+  // 다운로드 버튼 클릭
   downloadBtn.addEventListener('click', () => {
     const title = document.getElementById('event-title').value.trim();
     const results = convertedArea.value.trim().split('\n').filter(Boolean);
@@ -125,7 +119,7 @@ function updateConvertedList() {
 
   const results = [];
   for (let y = parseInt(year); y <= endYear; y++) {
-    const targetLunar = `${y}-${month}-${day}`;
+    const targetLunar = `${y}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     const match = lunarData.find(d => d.lunar === targetLunar && d.leap === isLeap);
     if (match) results.push(match.solar);
   }
@@ -149,12 +143,4 @@ function generateICS(title, solarDates) {
 
   ics += 'END:VCALENDAR';
   return ics;
-}
-
-function getLunarMonthString(year) {
-  const baseYear = 1881;
-  const index = year - baseYear;
-  // 예시 문자열 리턴 (실제로는 LunarMonthTable에서 가져와야 함)
-  // 이 함수는 실제 lunarMonthTable을 import해서 구현해야 함
-  return '1212121221220'; // 예시 리턴
 }
