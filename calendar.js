@@ -4,6 +4,7 @@ function initCalendar(lunarData) {
   const toggle = document.getElementById('calendar-toggle');
   const calendarDiv = document.getElementById('calendar');
 
+  // 달력 아이콘 클릭 → 달력 표시/숨김
   toggle.addEventListener('click', () => {
     calendarDiv.style.display = calendarDiv.style.display === 'none' ? 'block' : 'none';
   });
