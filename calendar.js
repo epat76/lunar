@@ -10,7 +10,13 @@ async function initCalendar() {
   const thisMonth = today.getMonth() + 1;
 
   initCalendarSelectors(thisYear, thisMonth);
-  renderCalendar(thisYear, thisMonth);
+
+  // 드롭다운 값 설정 후 강제 트리거하여 초기 렌더링
+  setTimeout(() => {
+    document.getElementById('calendar-year').value = thisYear;
+    document.getElementById('calendar-month').value = thisMonth;
+    document.getElementById('calendar-year').dispatchEvent(new Event('change'));
+  }, 0);
 }
 
 function initCalendarSelectors(selectedYear, selectedMonth) {
@@ -22,7 +28,6 @@ function initCalendarSelectors(selectedYear, selectedMonth) {
     const option = document.createElement('option');
     option.value = y;
     option.textContent = `${y}년`;
-    if (y === selectedYear) option.selected = true;
     yearSelect.appendChild(option);
   }
 
@@ -31,7 +36,6 @@ function initCalendarSelectors(selectedYear, selectedMonth) {
     const option = document.createElement('option');
     option.value = m;
     option.textContent = `${m}월`;
-    if (m === selectedMonth) option.selected = true;
     monthSelect.appendChild(option);
   }
 
