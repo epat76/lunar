@@ -26,32 +26,12 @@ window.onload = async function () {
 
   yearSelect.value = new Date().getFullYear();
   monthSelect.value = new Date().getMonth() + 1;
-
-  function updateDays() {
-    const year = parseInt(yearSelect.value);
-    const month = parseInt(monthSelect.value);
-    const isLeap = leapInput.checked;
-
-    if (!year || !month) return;
-
-    const targetPrefix = `${year}-${String(month).padStart(2, '0')}`;
-    const days = lunarData
-      .filter(d => d.lunar.startsWith(targetPrefix) && d.leap === isLeap)
-      .map(d => parseInt(d.lunar.split('-')[2]));
-
-    const maxDay = days.length > 0 ? Math.max(...days) : 30;
-    daySelect.innerHTML = '<option value="">일 선택</option>';
-    for (let d = 1; d <= maxDay; d++) {
-      daySelect.innerHTML += `<option value="${d}">${d}</option>`;
-    }
-
-    updateConvertedList();
-  }
-
   yearSelect.dispatchEvent(new Event('change'));
 
+  // 종료 연도 옵션 업데이트
   yearSelect.addEventListener('change', () => {
     const year = parseInt(yearSelect.value);
+    if (!year) return;
     endYearSelect.innerHTML = '<option value="">-- 연도 선택 --</option>';
     for (let y = year + 1; y <= 2100; y++) {
       endYearSelect.innerHTML += `<option value="${y}">${y}</option>`;
@@ -91,8 +71,27 @@ function checkInputs() {
   const day = document.getElementById('lunar-day').value;
   const endYear = document.getElementById('end-year').value;
   const downloadBtn = document.getElementById('download-btn');
-
   downloadBtn.disabled = !(title && year && month && day && endYear);
+}
+
+function updateDays() {
+  const year = parseInt(document.getElementById('lunar-year').value);
+  const month = parseInt(document.getElementById('lunar-month').value);
+  const isLeap = document.getElementById('is-leap').checked;
+  const daySelect = document.getElementById('lunar-day');
+
+  if (!year || !month) return;
+
+  const targetPrefix = `${year}-${String(month).padStart(2, '0')}`;
+  const days = lunarData
+    .filter(d => d.lunar.startsWith(targetPrefix) && d.leap === isLeap)
+    .map(d => parseInt(d.lunar.split('-')[2]));
+
+  const maxDay = days.length > 0 ? Math.max(...days) : 30;
+  daySelect.innerHTML = '<option value="">일 선택</option>';
+  for (let d = 1; d <= maxDay; d++) {
+    daySelect.innerHTML += `<option value="${d}">${d}</option>`;
+  }
 }
 
 function updateConvertedList() {
@@ -131,10 +130,12 @@ function updateConvertedList() {
 
 function generateICS(title, solarDates) {
   let ics = `BEGIN:VCALENDAR\nVERSION:2.0\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\nX-WR-CALNAME:${title}\nX-WR-TIMEZONE:Asia/Seoul\n`;
+
   solarDates.forEach(dateStr => {
     const dt = dateStr.replace(/-/g, '');
     ics += `BEGIN:VEVENT\nSUMMARY:${title}\nDTSTART;VALUE=DATE:${dt}\nDTEND;VALUE=DATE:${dt}\nTRANSP:TRANSPARENT\nEND:VEVENT\n`;
   });
+
   ics += 'END:VCALENDAR';
   return ics;
 }
