@@ -115,3 +115,12 @@ function renderCalendar(year, month) {
 }
 
 initCalendar();
+
+// 자동 현재 연도/월로 선택
+const today = new Date();
+document.addEventListener('DOMContentLoaded', () => {
+  const lunarYear = document.getElementById('lunar-year');
+  const lunarMonth = document.getElementById('lunar-month');
+  lunarYear.value = today.getFullYear();
+  lunarMonth.value = today.getMonth() + 1;
+});
