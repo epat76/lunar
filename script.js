@@ -1,4 +1,3 @@
-// script.js
 let lunarData = [];
 
 window.onload = async function () {
@@ -12,22 +11,21 @@ window.onload = async function () {
   const endYearSelect = document.getElementById('end-year');
   const downloadBtn = document.getElementById('download-btn');
   const convertedArea = document.getElementById('converted-list');
-  const convertedDateLabel = document.getElementById('converted-date-label');
 
-  // 연도 초기화
   for (let y = 1881; y <= 2100; y++) {
     yearSelect.innerHTML += `<option value="${y}">${y}</option>`;
   }
 
-  // 월 초기화
   for (let m = 1; m <= 12; m++) {
     monthSelect.innerHTML += `<option value="${m}">${m}</option>`;
   }
 
-  // 연/월/윤달 변경 시 일자 옵션 업데이트
   yearSelect.addEventListener('change', updateDays);
   monthSelect.addEventListener('change', updateDays);
   leapInput.addEventListener('change', updateDays);
+
+  yearSelect.value = new Date().getFullYear();
+  monthSelect.value = new Date().getMonth() + 1;
 
   function updateDays() {
     const year = parseInt(yearSelect.value);
@@ -46,20 +44,20 @@ window.onload = async function () {
     for (let d = 1; d <= maxDay; d++) {
       daySelect.innerHTML += `<option value="${d}">${d}</option>`;
     }
+
     updateConvertedList();
   }
 
-  // 종료연도 초기화 및 업데이트
+  yearSelect.dispatchEvent(new Event('change'));
+
   yearSelect.addEventListener('change', () => {
     const year = parseInt(yearSelect.value);
-    if (!year) return;
     endYearSelect.innerHTML = '<option value="">-- 연도 선택 --</option>';
     for (let y = year + 1; y <= 2100; y++) {
       endYearSelect.innerHTML += `<option value="${y}">${y}</option>`;
     }
   });
 
-  // 입력값 변화 감지
   document.querySelectorAll('input, select').forEach(el => {
     el.addEventListener('input', () => {
       checkInputs();
@@ -71,25 +69,19 @@ window.onload = async function () {
     });
   });
 
-  // 📅 달력 아이콘 클릭 시 토글
-  document.getElementById('calendar-toggle').addEventListener('click', () => {
-    const calendar = document.getElementById('calendar');
-    calendar.style.display = calendar.style.display === 'none' ? 'block' : 'none';
-  });
-
-  // 다운로드 버튼 클릭
   downloadBtn.addEventListener('click', () => {
     const title = document.getElementById('event-title').value.trim();
     const results = convertedArea.value.trim().split('\n').filter(Boolean);
     const icsText = generateICS(title, results);
     const blob = new Blob([icsText], { type: 'text/calendar;charset=utf-8' });
     const url = URL.createObjectURL(blob);
-
     const a = document.createElement('a');
     a.href = url;
     a.download = `${title}.ics`;
     a.click();
   });
+
+  initCalendar(lunarData);
 };
 
 function checkInputs() {
@@ -100,11 +92,7 @@ function checkInputs() {
   const endYear = document.getElementById('end-year').value;
   const downloadBtn = document.getElementById('download-btn');
 
-  if (title && year && month && day && endYear) {
-    downloadBtn.disabled = false;
-  } else {
-    downloadBtn.disabled = true;
-  }
+  downloadBtn.disabled = !(title && year && month && day && endYear);
 }
 
 function updateConvertedList() {
@@ -112,42 +100,41 @@ function updateConvertedList() {
   const month = document.getElementById('lunar-month').value;
   const day = document.getElementById('lunar-day').value;
   const isLeap = document.getElementById('is-leap').checked;
-  const endYearRaw = document.getElementById('end-year').value;
+  const endYear = parseInt(document.getElementById('end-year').value);
   const convertedArea = document.getElementById('converted-list');
   const convertedDateLabel = document.getElementById('converted-date-label');
 
-  const baseLunar = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-  const baseMatch = lunarData.find(d => d.lunar === baseLunar && d.leap === isLeap);
-  if (baseMatch) {
-    convertedDateLabel.textContent = `→ 양력 기준: ${baseMatch.solar}`;
-  } else {
-    convertedDateLabel.textContent = '';
-  }
-
-  if (!year || !month || !day || !endYearRaw) {
+  if (!year || !month || !day) {
     convertedArea.value = '';
+    convertedDateLabel.textContent = '';
     return;
   }
 
-  const endYear = parseInt(endYearRaw);
   const results = [];
-  for (let y = parseInt(year); y <= endYear; y++) {
+  const fromY = parseInt(year);
+  const toY = isNaN(endYear) ? fromY : endYear;
+
+  for (let y = fromY; y <= toY; y++) {
     const targetLunar = `${y}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     const match = lunarData.find(d => d.lunar === targetLunar && d.leap === isLeap);
     if (match) results.push(match.solar);
   }
 
   convertedArea.value = results.join('\n');
+
+  if (results.length > 0) {
+    convertedDateLabel.textContent = `→ 양력 기준: ${results[0]}`;
+  } else {
+    convertedDateLabel.textContent = '해당 음력 날짜의 양력 변환 결과 없음';
+  }
 }
 
 function generateICS(title, solarDates) {
   let ics = `BEGIN:VCALENDAR\nVERSION:2.0\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\nX-WR-CALNAME:${title}\nX-WR-TIMEZONE:Asia/Seoul\n`;
-
   solarDates.forEach(dateStr => {
     const dt = dateStr.replace(/-/g, '');
     ics += `BEGIN:VEVENT\nSUMMARY:${title}\nDTSTART;VALUE=DATE:${dt}\nDTEND;VALUE=DATE:${dt}\nTRANSP:TRANSPARENT\nEND:VEVENT\n`;
   });
-
   ics += 'END:VCALENDAR';
   return ics;
 }
