@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>음력반복일정 ICS생성</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
@@ -12,38 +12,27 @@
     <h1>음력반복일정 ICS생성</h1>
 
     <label for="event-title">일정 제목</label>
-    <input id="event-title" type="text" placeholder="예: 아빠생일">
+    <input type="text" id="event-title" placeholder="예: 할머니 생신" />
 
-    <label for="lunar-year">음력 날짜</label>
-    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-      <select id="lunar-year" style="flex: 1 1 30%; min-width: 80px">
-        <option value="">연도</option>
-      </select>
-      <select id="lunar-month" style="flex: 1 1 20%; min-width: 60px">
-        <option value="">월</option>
-      </select>
-      <select id="lunar-day" style="flex: 1 1 20%; min-width: 60px">
-        <option value="">일</option>
-      </select>
+    <label>음력 날짜 입력</label>
+    <div class="lunar-input-row">
+      <select id="lunar-year"><option value="">연도</option></select>
+      <select id="lunar-month"><option value="">월</option></select>
+      <select id="lunar-day"><option value="">일</option></select>
 
-      <button id="calendar-toggle" style="padding: 6px 10px; font-size: 0.9rem;">📅</button>
+      <button id="calendar-toggle" title="달력 보기">📅</button>
 
-      <label style="display: flex; align-items: center; gap: 6px; white-space: nowrap;">
-        <input id="is-leap" type="checkbox"> 윤달
-      </label>
-
-      <span id="converted-date-label" style="margin-left: auto; font-size: 0.9rem; color: #555;"></span>
+      <label><input type="checkbox" id="is-leap" /> 윤달</label>
+      <span id="converted-date-label"></span>
     </div>
 
-    <label for="end-year">일정 종료</label>
-    <select id="end-year">
-      <option value="">-- 연도 선택 --</option>
-    </select>
+    <label for="end-year">일정 종료 연도</label>
+    <select id="end-year"><option value="">-- 연도 선택 --</option></select>
 
-    <label for="converted-list">양력 변환 결과</label>
+    <label>양력 반복 일정</label>
     <textarea id="converted-list" rows="6" readonly></textarea>
 
-    <button id="download-btn" disabled>ICS 다운로드</button>
+    <button id="download-btn" disabled>ICS 파일 다운로드</button>
 
     <div id="calendar" style="display: none;"></div>
   </div>
