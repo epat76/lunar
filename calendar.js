@@ -6,8 +6,11 @@ async function initCalendar() {
   lunarData = await res.json();
 
   const today = new Date();
-  initCalendarSelectors(today.getFullYear(), today.getMonth() + 1);
-  renderCalendar(today.getFullYear(), today.getMonth() + 1);
+  const thisYear = today.getFullYear();
+  const thisMonth = today.getMonth() + 1;
+
+  initCalendarSelectors(thisYear, thisMonth);
+  renderCalendar(thisYear, thisMonth);
 }
 
 function initCalendarSelectors(selectedYear, selectedMonth) {
@@ -16,26 +19,32 @@ function initCalendarSelectors(selectedYear, selectedMonth) {
 
   yearSelect.innerHTML = '';
   for (let y = 1881; y <= 2100; y++) {
-    yearSelect.innerHTML += `<option value="${y}" ${y === selectedYear ? 'selected' : ''}>${y}년</option>`;
+    const option = document.createElement('option');
+    option.value = y;
+    option.textContent = `${y}년`;
+    if (y === selectedYear) option.selected = true;
+    yearSelect.appendChild(option);
   }
 
   monthSelect.innerHTML = '';
   for (let m = 1; m <= 12; m++) {
-    monthSelect.innerHTML += `<option value="${m}" ${m === selectedMonth ? 'selected' : ''}>${m}월</option>`;
+    const option = document.createElement('option');
+    option.value = m;
+    option.textContent = `${m}월`;
+    if (m === selectedMonth) option.selected = true;
+    monthSelect.appendChild(option);
   }
 
-  yearSelect.addEventListener('change', () => {
-    renderCalendar(
-      parseInt(yearSelect.value),
-      parseInt(monthSelect.value)
-    );
-  });
-  monthSelect.addEventListener('change', () => {
-    renderCalendar(
-      parseInt(yearSelect.value),
-      parseInt(monthSelect.value)
-    );
-  });
+  const renderFromSelector = () => {
+    const year = parseInt(yearSelect.value);
+    const month = parseInt(monthSelect.value);
+    if (!isNaN(year) && !isNaN(month)) {
+      renderCalendar(year, month);
+    }
+  };
+
+  yearSelect.addEventListener('change', renderFromSelector);
+  monthSelect.addEventListener('change', renderFromSelector);
 }
 
 function renderCalendar(year, month) {
