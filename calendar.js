@@ -1,5 +1,7 @@
 // calendar.js
 
+console.log('✅ calendar.js loaded');
+
 async function initCalendar() {
   // lunarData는 script.js에서 이미 전역으로 선언 및 로드됨
   const today = new Date();
