@@ -6,13 +6,7 @@ async function initCalendar() {
   const thisYear = today.getFullYear();
   const thisMonth = today.getMonth() + 1;
 
-  initCalendarSelectors(thisYear, thisMonth);
-
-  setTimeout(() => {
-    document.getElementById('calendar-year').value = thisYear;
-    document.getElementById('calendar-month').value = thisMonth;
-    document.getElementById('calendar-year').dispatchEvent(new Event('change'));
-  }, 0);
+  renderCalendar(thisYear, thisMonth);
 
   const toggleBtn = document.getElementById('calendar-toggle');
   if (toggleBtn) {
@@ -23,38 +17,6 @@ async function initCalendar() {
       }
     });
   }
-}
-
-function initCalendarSelectors(selectedYear, selectedMonth) {
-  const yearSelect = document.getElementById('calendar-year');
-  const monthSelect = document.getElementById('calendar-month');
-
-  yearSelect.innerHTML = '';
-  for (let y = 1881; y <= 2100; y++) {
-    const option = document.createElement('option');
-    option.value = y;
-    option.textContent = `${y}년`;
-    yearSelect.appendChild(option);
-  }
-
-  monthSelect.innerHTML = '';
-  for (let m = 1; m <= 12; m++) {
-    const option = document.createElement('option');
-    option.value = m;
-    option.textContent = `${m}월`;
-    monthSelect.appendChild(option);
-  }
-
-  const renderFromSelector = () => {
-    const year = parseInt(yearSelect.value);
-    const month = parseInt(monthSelect.value);
-    if (!isNaN(year) && !isNaN(month)) {
-      renderCalendar(year, month);
-    }
-  };
-
-  yearSelect.addEventListener('change', renderFromSelector);
-  monthSelect.addEventListener('change', renderFromSelector);
 }
 
 function renderCalendar(year, month) {
