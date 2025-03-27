@@ -1,121 +1,85 @@
-/* style.css */
-* {
-  box-sizing: border-box;
-}
-
 body {
-  font-family: 'Helvetica', sans-serif;
-  background-color: #f9f9f9;
+  font-family: 'Segoe UI', sans-serif;
   margin: 0;
-  padding: 0;
+  padding: 20px;
+  background: #f9f9f9;
 }
 
 .container {
-  max-width: 500px;
-  margin: 40px auto;
-  padding: 24px;
+  max-width: 600px;
+  margin: auto;
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 24px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 32px;
-  font-size: 1.5rem;
-  color: #333;
+  margin-bottom: 24px;
 }
 
 label {
   display: block;
-  margin: 16px 0 8px;
+  margin-top: 16px;
   font-weight: bold;
-  color: #444;
 }
 
-input[type="text"],
-select,
-textarea {
+input, select, textarea, button {
   width: 100%;
-  padding: 10px 14px;
+  box-sizing: border-box;
+  padding: 8px;
+  margin-top: 6px;
+  font-size: 14px;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-}
-
-select {
-  appearance: none;
-  background-color: white;
-  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23666' d='M2 0L0 2h4z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 10px;
-}
-
-input[type="checkbox"] {
-  transform: scale(1.2);
-  margin: 0;
+  border-radius: 4px;
 }
 
 textarea {
   resize: vertical;
-  background-color: #f4f4f4;
 }
 
 button {
-  width: 100%;
-  padding: 14px;
-  background-color: #b2f5b2;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
+  background-color: #4285f4;
+  color: white;
   font-weight: bold;
-  margin-top: 24px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background 0.3s;
 }
 
 button:disabled {
-  background-color: #d8d8d8;
-  color: #888;
+  background-color: #ccc;
   cursor: not-allowed;
 }
 
-button:hover:not(:disabled) {
-  background-color: #90ee90;
-}
-
-/* 달력 스타일 */
-#calendar {
-  margin-top: 24px;
-}
-
-#calendar-nav {
+.lunar-input-row {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
-  margin-top: 32px;
-  margin-bottom: 8px;
+  gap: 8px;
+  margin-top: 8px;
 }
 
-#calendar-nav select {
-  width: 100%;
-  min-width: 100px;
-  display: block;
-  box-sizing: border-box;
-  padding: 10px;
-  font-size: 1rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+#lunar-year, #lunar-month, #lunar-day {
+  width: 90px;
 }
 
-.calendar-header {
-  text-align: center;
-  margin-bottom: 12px;
-  font-weight: bold;
-  font-size: 1.1rem;
+#calendar-toggle {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 6px;
+}
+
+#converted-date-label {
+  margin-left: auto;
+  font-size: 0.9em;
+  color: #555;
+}
+
+#calendar {
+  margin-top: 20px;
 }
 
 .calendar-grid {
@@ -124,61 +88,14 @@ button:hover:not(:disabled) {
   gap: 4px;
 }
 
-.calendar-cell {
-  background: #fafafa;
-  border: 1px solid #ddd;
-  min-height: 60px;
-  padding: 4px;
-  font-size: 0.85rem;
-  position: relative;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.calendar-cell:hover {
-  background-color: #eefbef;
-}
-
-.calendar-day-label {
-  background-color: #eee;
+.calendar-grid div {
+  border: 1px solid #ccc;
   text-align: center;
-  font-weight: bold;
-  color: #555;
+  padding: 6px;
+  font-size: 13px;
+  cursor: pointer;
 }
 
-.solar-date {
-  font-weight: bold;
-  margin-bottom: 2px;
-}
-
-.lunar-date {
-  font-size: 0.75rem;
-  color: #888;
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 16px;
-  }
-
-  h1 {
-    font-size: 1.25rem;
-  }
-
-  select,
-  input[type="text"],
-  textarea {
-    font-size: 0.95rem;
-  }
-
-  #converted-date-label {
-    margin-top: 4px;
-    display: block;
-  }
-
-  #calendar-nav {
-    flex-direction: column;
-  }
+.calendar-grid div:hover {
+  background-color: #e3f2fd;
 }
