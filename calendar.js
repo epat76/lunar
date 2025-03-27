@@ -11,7 +11,7 @@ async function initCalendar() {
 
   initCalendarSelectors(thisYear, thisMonth);
 
-  // 드롭다운 값 설정 후 강제 트리거하여 초기 렌더링
+  // 초기 선택값 반영 및 렌더링 강제 실행
   setTimeout(() => {
     document.getElementById('calendar-year').value = thisYear;
     document.getElementById('calendar-month').value = thisMonth;
