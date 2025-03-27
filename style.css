@@ -1,3 +1,4 @@
+/* style.css */
 * {
   box-sizing: border-box;
 }
@@ -33,7 +34,6 @@ label {
 }
 
 input[type="text"],
-input[type="date"],
 select,
 textarea {
   width: 100%;
@@ -43,9 +43,18 @@ textarea {
   font-size: 1rem;
 }
 
+select {
+  appearance: none;
+  background-color: white;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23666' d='M2 0L0 2h4z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px;
+}
+
 input[type="checkbox"] {
-  margin-right: 8px;
   transform: scale(1.2);
+  margin: 0;
 }
 
 textarea {
@@ -74,4 +83,25 @@ button:disabled {
 
 button:hover:not(:disabled) {
   background-color: #90ee90;
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 16px;
+  }
+
+  h1 {
+    font-size: 1.25rem;
+  }
+
+  select,
+  input[type="text"],
+  textarea {
+    font-size: 0.95rem;
+  }
+
+  #converted-date-label {
+    margin-top: 4px;
+    display: block;
+  }
 }
