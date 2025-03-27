@@ -17,6 +17,17 @@ async function initCalendar() {
     document.getElementById('calendar-month').value = thisMonth;
     document.getElementById('calendar-year').dispatchEvent(new Event('change'));
   }, 0);
+
+  // 📅 달력 아이콘 연동 (달력 표시 토글)
+  const toggleBtn = document.getElementById('calendar-toggle');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      const calendar = document.getElementById('calendar');
+      if (calendar) {
+        calendar.style.display = (calendar.style.display === 'none' || calendar.style.display === '') ? 'block' : 'none';
+      }
+    });
+  }
 }
 
 function initCalendarSelectors(selectedYear, selectedMonth) {
@@ -105,6 +116,7 @@ function renderCalendar(year, month) {
         document.getElementById('is-leap').checked = lunar.leap;
         updateDays();
         updateConvertedList();
+        document.getElementById('calendar').style.display = 'none';
       }
     });
 
