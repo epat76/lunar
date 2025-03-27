@@ -26,16 +26,16 @@ label {
 }
 
 input, select, textarea, button {
-  width: 100%;
-  box-sizing: border-box;
+  font-size: 14px;
   padding: 8px;
   margin-top: 6px;
-  font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  box-sizing: border-box;
 }
 
 textarea {
+  width: 100%;
   resize: vertical;
 }
 
@@ -70,12 +70,22 @@ button:disabled {
   font-size: 20px;
   cursor: pointer;
   padding: 0 6px;
+  outline: none;
+}
+
+#calendar-toggle:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 #converted-date-label {
   margin-left: auto;
   font-size: 0.9em;
   color: #555;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
 }
 
 #calendar {
