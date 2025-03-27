@@ -1,23 +1,19 @@
 // calendar.js
 
-console.log('✅ calendar.js loaded');
-
 async function initCalendar() {
-  // lunarData는 script.js에서 이미 전역으로 선언 및 로드됨
+  console.log('✅ calendar.js loaded');
   const today = new Date();
   const thisYear = today.getFullYear();
   const thisMonth = today.getMonth() + 1;
 
   initCalendarSelectors(thisYear, thisMonth);
 
-  // 초기 선택값 반영 및 렌더링 강제 실행
   setTimeout(() => {
     document.getElementById('calendar-year').value = thisYear;
     document.getElementById('calendar-month').value = thisMonth;
     document.getElementById('calendar-year').dispatchEvent(new Event('change'));
   }, 0);
 
-  // 📅 달력 아이콘 연동 (달력 표시 토글)
   const toggleBtn = document.getElementById('calendar-toggle');
   if (toggleBtn) {
     toggleBtn.addEventListener('click', () => {
@@ -127,9 +123,8 @@ function renderCalendar(year, month) {
 
 initCalendar();
 
-// 자동 현재 연도/월로 선택
-const today = new Date();
 document.addEventListener('DOMContentLoaded', () => {
+  const today = new Date();
   const lunarYear = document.getElementById('lunar-year');
   const lunarMonth = document.getElementById('lunar-month');
   lunarYear.value = today.getFullYear();
