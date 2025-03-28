@@ -26,7 +26,7 @@ window.onload = async function () {
     solarMonth.innerHTML += `<option value="${m}">${m}</option>`;
   }
 
-  // 초기화면: 오늘 날짜 반영
+  // ✅ 초기화면: 오늘 날짜 설정 (양력)
   const today = new Date();
   const sy = today.getFullYear();
   const sm = today.getMonth() + 1;
@@ -36,8 +36,10 @@ window.onload = async function () {
   updateSolarDays();
   solarDay.value = sd;
 
-  // 양력 → 음력 자동변환 적용
-  syncToLunar();
+  // ✅ 오늘 날짜 기준으로 음력 자동 반영
+  syncToLunar(); // 음력 값을 자동 설정
+  updateLunarDays();
+  updateEndYears();
 
   lunarYear.addEventListener('change', () => {
     updateEndYears();
@@ -48,7 +50,7 @@ window.onload = async function () {
 
   function updateEndYears() {
     const start = parseInt(lunarYear.value);
-    endYearSelect.innerHTML = `<option value="">연도 선택</option>`; // ✅ 문구 수정
+    endYearSelect.innerHTML = `<option value="">연도 선택</option>`; // ✅ 수정 완료
     for (let y = start + 1; y <= 2100; y++) {
       endYearSelect.innerHTML += `<option value="${y}">${y}</option>`;
     }
@@ -101,8 +103,8 @@ window.onload = async function () {
 
   document.querySelectorAll('input, select').forEach(el => {
     el.addEventListener('change', () => {
-      syncToSolar();   // ✅ 음력 → 양력 자동변환
-      syncToLunar();   // ✅ 양력 → 음력 자동변환
+      syncToSolar();
+      syncToLunar();
       updateConvertedList();
       checkInputs();
     });
@@ -117,8 +119,6 @@ window.onload = async function () {
     const match = lunarData.find(e => e.lunar === key && e.leap === leap);
     if (match) {
       const [sy, sm, sd] = match.solar.split('-');
-
-      // ✅ 자동 입력하되 수동 변경 가능하도록 이벤트 발생 없이 단순 값 설정
       solarYear.value = sy;
       solarMonth.value = parseInt(sm);
       updateSolarDays();
