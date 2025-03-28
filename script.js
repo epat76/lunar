@@ -26,6 +26,19 @@ window.onload = async function () {
     solarMonth.innerHTML += `<option value="${m}">${m}</option>`;
   }
 
+  // 초기화면: 오늘 날짜 반영
+  const today = new Date();
+  const sy = today.getFullYear();
+  const sm = today.getMonth() + 1;
+  const sd = today.getDate();
+  solarYear.value = sy;
+  solarMonth.value = sm;
+  updateSolarDays();
+  solarDay.value = sd;
+
+  // 양력 → 음력 자동변환 적용
+  syncToLunar();
+
   lunarYear.addEventListener('change', () => {
     updateEndYears();
     updateLunarDays();
@@ -88,8 +101,8 @@ window.onload = async function () {
 
   document.querySelectorAll('input, select').forEach(el => {
     el.addEventListener('change', () => {
-      syncToSolar();
-      syncToLunar();
+      syncToSolar();   // ✅ 음력 → 양력 자동변환
+      syncToLunar();   // ✅ 양력 → 음력 자동변환
       updateConvertedList();
       checkInputs();
     });
@@ -104,12 +117,12 @@ window.onload = async function () {
     const match = lunarData.find(e => e.lunar === key && e.leap === leap);
     if (match) {
       const [sy, sm, sd] = match.solar.split('-');
+
+      // ✅ 자동 입력하되 수동 변경 가능하도록 이벤트 발생 없이 단순 값 설정
       solarYear.value = sy;
       solarMonth.value = parseInt(sm);
       updateSolarDays();
-      if (solarDay.value != sd) {
-        solarDay.value = parseInt(sd); // ✅ 중복 설정 방지
-      }
+      solarDay.value = parseInt(sd);
     }
   }
 
@@ -125,9 +138,7 @@ window.onload = async function () {
       lunarMonth.value = parseInt(lm);
       isLeap.checked = match.leap;
       updateLunarDays();
-      if (lunarDay.value != ld) {
-        lunarDay.value = parseInt(ld); // ✅ 중복 설정 방지
-      }
+      lunarDay.value = parseInt(ld);
     }
   }
 
