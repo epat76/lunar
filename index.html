@@ -13,28 +13,29 @@
     <label for="event-title">일정 제목</label>
     <input type="text" id="event-title" placeholder="예: 할머니 생신"/>
 
+    <label>음력날짜</label>
     <div class="date-group">
-      <label class="inline-label">음력날짜</label>
       <select id="lunar-year"><option value="">연도</option></select>
       <select id="lunar-month"><option value="">월</option></select>
       <select id="lunar-day"><option value="">일</option></select>
-      <label><input type="checkbox" id="is-leap"/>윤달</label>
+      <label class="checkbox-inline">
+        <input type="checkbox" id="is-leap" />
+        윤달
+      </label>
     </div>
 
+    <label>양력날짜</label>
     <div class="date-group">
-      <label class="inline-label">양력날짜</label>
       <select id="solar-year"><option value="">연도</option></select>
       <select id="solar-month"><option value="">월</option></select>
       <select id="solar-day"><option value="">일</option></select>
     </div>
 
-    <div class="date-group">
-      <label for="end-year" class="inline-label">일정 종료 연도</label>
-      <select id="end-year"><option value="">연도 선택</option></select>
-    </div>
+    <label for="end-year">일정 종료 연도</label>
+    <select id="end-year"><option value="">연도 선택</option></select>
 
     <label for="converted-list">양력변환 결과</label>
-    <textarea id="converted-list" rows="5" readonly></textarea>
+    <textarea id="converted-list" rows="6" readonly></textarea>
 
     <button id="download-btn" disabled>ICS 파일 다운로드</button>
   </div>
