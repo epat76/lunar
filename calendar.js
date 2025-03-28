@@ -6,25 +6,24 @@ function initCalendar(lunarData) {
   const toggleSolar = document.getElementById('calendar-toggle-solar');
 
   let targetMode = 'lunar';
+  let currentDate = new Date();
 
-  // 아이콘 클릭 시 달력 표시 위치 조정
   toggleLunar.addEventListener('click', () => {
     targetMode = 'lunar';
-    renderCalendar(new Date(), lunarData);
-    const inputRow = document.getElementById('lunar-input-row');
+    renderCalendar(currentDate, lunarData);
+    const inputRow = document.getElementById('lunar-year').parentNode;
     inputRow.insertAdjacentElement('afterend', calendarDiv);
     calendarDiv.style.display = 'block';
   });
 
   toggleSolar.addEventListener('click', () => {
     targetMode = 'solar';
-    renderCalendar(new Date(), lunarData);
-    const inputRow = document.getElementById('solar-input-row');
+    renderCalendar(currentDate, lunarData);
+    const inputRow = document.getElementById('solar-year').parentNode;
     inputRow.insertAdjacentElement('afterend', calendarDiv);
     calendarDiv.style.display = 'block';
   });
 
-  // 날짜 클릭 시 동기화
   function handleDateClick(solarStr) {
     if (targetMode === 'solar') {
       const [y, m, d] = solarStr.split('-');
@@ -47,7 +46,6 @@ function initCalendar(lunarData) {
     }
   }
 
-  // 달력 렌더링
   function renderCalendar(dateObj, lunarData) {
     const year = dateObj.getFullYear();
     const month = dateObj.getMonth() + 1;
@@ -55,6 +53,37 @@ function initCalendar(lunarData) {
     const lastDate = new Date(year, month, 0).getDate();
 
     const weekdays = ['일','월','화','수','목','금','토'];
+    calendarDiv.innerHTML = '';
+
+    // 상단 연도/월 선택 드롭다운
+    const header = document.createElement('div');
+    header.className = 'calendar-header';
+
+    const yearSelect = document.createElement('select');
+    for (let y = 1881; y <= 2100; y++) {
+      yearSelect.innerHTML += `<option value="${y}" ${y === year ? 'selected' : ''}>${y}</option>`;
+    }
+
+    const monthSelect = document.createElement('select');
+    for (let m = 1; m <= 12; m++) {
+      monthSelect.innerHTML += `<option value="${m}" ${m === month ? 'selected' : ''}>${m}</option>`;
+    }
+
+    header.appendChild(yearSelect);
+    header.appendChild(monthSelect);
+    calendarDiv.appendChild(header);
+
+    // 변경 이벤트
+    yearSelect.addEventListener('change', () => {
+      currentDate = new Date(parseInt(yearSelect.value), parseInt(monthSelect.value) - 1, 1);
+      renderCalendar(currentDate, lunarData);
+    });
+    monthSelect.addEventListener('change', () => {
+      currentDate = new Date(parseInt(yearSelect.value), parseInt(monthSelect.value) - 1, 1);
+      renderCalendar(currentDate, lunarData);
+    });
+
+    // 달력 그리드
     const grid = document.createElement('div');
     grid.className = 'calendar-grid';
 
@@ -85,7 +114,6 @@ function initCalendar(lunarData) {
       grid.appendChild(cell);
     }
 
-    calendarDiv.innerHTML = '';
     calendarDiv.appendChild(grid);
   }
 }
