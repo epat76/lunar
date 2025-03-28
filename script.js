@@ -1,11 +1,9 @@
 let lunarData = [];
 
 window.onload = async function () {
-  // JSON 로드
   const res = await fetch('lunar_to_solar.json');
   lunarData = await res.json();
 
-  // 요소 지정
   const lunarYear = document.getElementById('lunar-year');
   const lunarMonth = document.getElementById('lunar-month');
   const lunarDay = document.getElementById('lunar-day');
@@ -19,7 +17,6 @@ window.onload = async function () {
   const downloadBtn = document.getElementById('download-btn');
   const convertedArea = document.getElementById('converted-list');
 
-  // 드롭다운 초기화
   for (let y = 1881; y <= 2100; y++) {
     lunarYear.innerHTML += `<option value="${y}">${y}</option>`;
     solarYear.innerHTML += `<option value="${y}">${y}</option>`;
@@ -29,29 +26,39 @@ window.onload = async function () {
     solarMonth.innerHTML += `<option value="${m}">${m}</option>`;
   }
 
-  // 종료연도 드롭다운 동적 구성
   lunarYear.addEventListener('change', () => {
+    updateEndYears();
+    updateLunarDays();
+  });
+  lunarMonth.addEventListener('change', updateLunarDays);
+  isLeap.addEventListener('change', updateLunarDays);
+
+  function updateEndYears() {
     const start = parseInt(lunarYear.value);
     endYearSelect.innerHTML = `<option value="">-- 연도 선택 --</option>`;
     for (let y = start + 1; y <= 2100; y++) {
       endYearSelect.innerHTML += `<option value="${y}">${y}</option>`;
     }
-  });
+  }
 
-  // 양력 날짜 → 일자 자동 채움
   function updateSolarDays() {
     const y = parseInt(solarYear.value);
     const m = parseInt(solarMonth.value);
     if (!y || !m) return;
-
     const lastDay = new Date(y, m, 0).getDate();
+    const currentDay = solarDay.value;
+
     solarDay.innerHTML = `<option value="">일</option>`;
     for (let d = 1; d <= lastDay; d++) {
-      solarDay.innerHTML += `<option value="${d}">${d}</option>`;
+      solarDay.innerHTML += `<option value="${d}" ${d == currentDay ? 'selected' : ''}>${d}</option>`;
+    }
+
+    if (currentDay && currentDay <= lastDay) {
+      solarDay.value = currentDay;
+      solarDay.dispatchEvent(new Event('change'));
     }
   }
 
-  // 음력 날짜 → 일자 자동 채움
   function updateLunarDays() {
     const y = parseInt(lunarYear.value);
     const m = parseInt(lunarMonth.value);
@@ -64,21 +71,22 @@ window.onload = async function () {
       .map(d => parseInt(d.lunar.split('-')[2]));
 
     const maxDay = days.length > 0 ? Math.max(...days) : 30;
+    const currentDay = lunarDay.value;
+
     lunarDay.innerHTML = `<option value="">일</option>`;
     for (let d = 1; d <= maxDay; d++) {
-      lunarDay.innerHTML += `<option value="${d}">${d}</option>`;
+      lunarDay.innerHTML += `<option value="${d}" ${d == currentDay ? 'selected' : ''}>${d}</option>`;
+    }
+
+    if (currentDay && currentDay <= maxDay) {
+      lunarDay.value = currentDay;
+      lunarDay.dispatchEvent(new Event('change'));
     }
   }
 
-  // 이벤트 바인딩
   solarYear.addEventListener('change', updateSolarDays);
   solarMonth.addEventListener('change', updateSolarDays);
 
-  lunarYear.addEventListener('change', updateLunarDays);
-  lunarMonth.addEventListener('change', updateLunarDays);
-  isLeap.addEventListener('change', updateLunarDays);
-
-  // 전체 입력 변화 감지
   document.querySelectorAll('input, select').forEach(el => {
     el.addEventListener('change', () => {
       syncToSolar();
@@ -88,7 +96,6 @@ window.onload = async function () {
     });
   });
 
-  // 음력 → 양력 변환
   function syncToSolar() {
     const y = lunarYear.value, m = lunarMonth.value, d = lunarDay.value;
     if (!y || !m || !d) return;
@@ -105,7 +112,6 @@ window.onload = async function () {
     }
   }
 
-  // 양력 → 음력 변환
   function syncToLunar() {
     const sy = solarYear.value, sm = solarMonth.value, sd = solarDay.value;
     if (!sy || !sm || !sd) return;
@@ -122,7 +128,6 @@ window.onload = async function () {
     }
   }
 
-  // 양력 반복 일정 생성
   function updateConvertedList() {
     const y = lunarYear.value, m = lunarMonth.value, d = lunarDay.value;
     const leap = isLeap.checked;
@@ -143,7 +148,6 @@ window.onload = async function () {
     convertedArea.value = results.join('\n');
   }
 
-  // 입력 값 체크
   function checkInputs() {
     const title = document.getElementById('event-title').value.trim();
     const y = lunarYear.value, m = lunarMonth.value, d = lunarDay.value;
@@ -151,7 +155,6 @@ window.onload = async function () {
     downloadBtn.disabled = !(title && y && m && d && endY);
   }
 
-  // ICS 다운로드
   downloadBtn.addEventListener('click', () => {
     const title = document.getElementById('event-title').value.trim();
     const results = convertedArea.value.trim().split('\n').filter(Boolean);
