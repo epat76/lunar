@@ -15,10 +15,10 @@
     <label for="event-title">일정 제목</label>
     <input type="text" id="event-title" placeholder="예: 아빠생일" />
 
-    <!-- 음력 날짜 입력 -->
+    <!-- 음력날짜 -->
     <div class="section-label-inline">
       <label for="lunar-year">음력날짜</label>
-      <button id="calendar-toggle-lunar" class="calendar-icon" title="달력 보기">📅</button>
+      <button id="calendar-toggle-lunar" class="calendar-icon" title="음력 달력">📅</button>
     </div>
     <div class="input-row same-line" id="lunar-input-row">
       <select id="lunar-year"><option value="">년도</option></select>
@@ -27,10 +27,10 @@
       <label class="inline-checkbox"><input type="checkbox" id="is-leap" /> 윤달</label>
     </div>
 
-    <!-- 양력 날짜 입력 -->
+    <!-- 양력날짜 -->
     <div class="section-label-inline">
-      <label for="solar-date">양력날짜</label>
-      <button id="calendar-toggle-solar" class="calendar-icon" title="달력 보기">📅</button>
+      <label for="solar-year">양력날짜</label>
+      <button id="calendar-toggle-solar" class="calendar-icon" title="양력 달력">📅</button>
     </div>
     <div class="input-row same-line" id="solar-input-row">
       <select id="solar-year"><option value="">년도</option></select>
@@ -45,8 +45,8 @@
     <label for="end-year">일정 종료 연도</label>
     <select id="end-year"><option value="">-- 연도 선택 --</option></select>
 
-    <!-- 양력 반복 일정 표시 -->
-    <label>양력 반복 일정</label>
+    <!-- 양력 반복 일정 텍스트 -->
+    <label style="display:block; margin-top:12px;">양력 반복 일정</label>
     <textarea id="converted-list" rows="6" readonly></textarea>
 
     <!-- ICS 다운로드 -->
