@@ -13,36 +13,46 @@
 
     <!-- 일정 제목 -->
     <label for="event-title">일정 제목</label>
-    <input type="text" id="event-title" placeholder="예: 할머니 생신" />
+    <input type="text" id="event-title" placeholder="예: 아빠생일" />
 
-    <!-- 음력 날짜 입력 및 달력 아이콘 -->
-    <label>음력 날짜 입력</label>
-    <div class="lunar-input-row">
-      <div class="calendar-group">
-        <button id="calendar-toggle" title="달력 보기">📅</button>
-      </div>
-
-      <select id="lunar-year"><option value="">연도</option></select>
+    <!-- 음력 날짜 입력 -->
+    <div class="section-label">
+      <label for="lunar-year">음력 날짜 입력</label>
+      <button id="calendar-toggle-lunar" class="calendar-icon" title="달력 보기">📅</button>
+    </div>
+    <div class="input-row">
+      <select id="lunar-year"><option value="">년도</option></select>
       <select id="lunar-month"><option value="">월</option></select>
       <select id="lunar-day"><option value="">일</option></select>
+      <label class="inline-checkbox"><input type="checkbox" id="is-leap" /> 윤달</label>
+    </div>
 
-      <label><input type="checkbox" id="is-leap" /> 윤달</label>
-
-      <!-- 양력 기준 문구 -->
+    <!-- 양력 기준 문구 -->
+    <div class="converted-line">
       <span id="converted-date-label"></span>
     </div>
 
+    <!-- 양력 날짜 입력 -->
+    <div class="section-label">
+      <label for="solar-date">양력 날짜 입력</label>
+      <button id="calendar-toggle-solar" class="calendar-icon" title="달력 보기">📅</button>
+    </div>
+    <div class="input-row">
+      <input type="date" id="solar-date" />
+    </div>
+
     <!-- 월간 달력 -->
-    <div id="calendar"></div>
+    <div id="calendar" class="calendar-popup"></div>
 
     <!-- 종료 연도 -->
     <label for="end-year">일정 종료 연도</label>
     <select id="end-year"><option value="">-- 연도 선택 --</option></select>
 
-    <!-- 변환된 일정 표시 -->
+    <!-- 양력 반복 일정 표시 -->
     <label>양력 반복 일정</label>
     <textarea id="converted-list" rows="6" readonly></textarea>
 
+    <!-- ICS 다운로드 -->
     <button id="download-btn" disabled>ICS 파일 다운로드</button>
   </div>
 
