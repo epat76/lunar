@@ -16,29 +16,26 @@
     <input type="text" id="event-title" placeholder="예: 아빠생일" />
 
     <!-- 음력 날짜 입력 -->
-    <div class="section-label">
+    <div class="section-label-inline">
       <label for="lunar-year">음력 날짜 입력</label>
       <button id="calendar-toggle-lunar" class="calendar-icon" title="달력 보기">📅</button>
     </div>
-    <div class="input-row">
+    <div class="input-row same-line">
       <select id="lunar-year"><option value="">년도</option></select>
       <select id="lunar-month"><option value="">월</option></select>
       <select id="lunar-day"><option value="">일</option></select>
       <label class="inline-checkbox"><input type="checkbox" id="is-leap" /> 윤달</label>
     </div>
 
-    <!-- 양력 기준 문구 -->
-    <div class="converted-line">
-      <span id="converted-date-label"></span>
-    </div>
-
     <!-- 양력 날짜 입력 -->
-    <div class="section-label">
+    <div class="section-label-inline">
       <label for="solar-date">양력 날짜 입력</label>
       <button id="calendar-toggle-solar" class="calendar-icon" title="달력 보기">📅</button>
     </div>
-    <div class="input-row">
-      <input type="date" id="solar-date" />
+    <div class="input-row same-line">
+      <select id="solar-year"><option value="">년도</option></select>
+      <select id="solar-month"><option value="">월</option></select>
+      <select id="solar-day"><option value="">일</option></select>
     </div>
 
     <!-- 월간 달력 -->
