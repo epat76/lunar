@@ -35,7 +35,7 @@ window.onload = async function () {
 
   function updateEndYears() {
     const start = parseInt(lunarYear.value);
-    endYearSelect.innerHTML = `<option value="">-- 연도 선택 --</option>`;
+    endYearSelect.innerHTML = `<option value="">연도 선택</option>`; // ✅ 수정됨
     for (let y = start + 1; y <= 2100; y++) {
       endYearSelect.innerHTML += `<option value="${y}">${y}</option>`;
     }
@@ -45,6 +45,7 @@ window.onload = async function () {
     const y = parseInt(solarYear.value);
     const m = parseInt(solarMonth.value);
     if (!y || !m) return;
+
     const lastDay = new Date(y, m, 0).getDate();
     const currentDay = solarDay.value;
 
@@ -55,7 +56,6 @@ window.onload = async function () {
 
     if (currentDay && currentDay <= lastDay) {
       solarDay.value = currentDay;
-      solarDay.dispatchEvent(new Event('change'));
     }
   }
 
@@ -80,7 +80,7 @@ window.onload = async function () {
 
     if (currentDay && currentDay <= maxDay) {
       lunarDay.value = currentDay;
-      lunarDay.dispatchEvent(new Event('change'));
+      // ❌ dispatchEvent 제거로 무한 루프 방지
     }
   }
 
