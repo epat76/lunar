@@ -4,8 +4,10 @@ function initCalendar(lunarData) {
   const calendarDiv = document.getElementById('calendar');
   const toggleLunar = document.getElementById('calendar-toggle-lunar');
   const toggleSolar = document.getElementById('calendar-toggle-solar');
+
   let targetMode = 'lunar';
 
+  // 아이콘 클릭 시 달력 표시 위치 조정
   toggleLunar.addEventListener('click', () => {
     targetMode = 'lunar';
     renderCalendar(new Date(), lunarData);
@@ -22,6 +24,7 @@ function initCalendar(lunarData) {
     calendarDiv.style.display = 'block';
   });
 
+  // 날짜 클릭 시 동기화
   function handleDateClick(solarStr) {
     if (targetMode === 'solar') {
       const [y, m, d] = solarStr.split('-');
@@ -44,6 +47,7 @@ function initCalendar(lunarData) {
     }
   }
 
+  // 달력 렌더링
   function renderCalendar(dateObj, lunarData) {
     const year = dateObj.getFullYear();
     const month = dateObj.getMonth() + 1;
@@ -68,10 +72,15 @@ function initCalendar(lunarData) {
     for (let d = 1; d <= lastDate; d++) {
       const solarStr = `${year}-${String(month).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
       const cell = document.createElement('div');
-      const match = lunarData.find(e => e.solar === solarStr);
-      const lunarDisplay = match ? `${parseInt(match.lunar.split('-')[2])}` + (match.leap ? ' (윤)' : '') : '';
 
-      cell.innerHTML = `<div>${d}</div><div style="font-size:11px;color:#ccc;">${lunarDisplay}</div>`;
+      const match = lunarData.find(e => e.solar === solarStr);
+      const lunarDay = match ? parseInt(match.lunar.split('-')[2]) : '';
+      const lunarText = match ? `${lunarDay}${match.leap ? '(윤)' : ''}` : '';
+
+      cell.innerHTML = `
+        <div>${d}</div>
+        <div style="font-size:11px;color:#ccc;">${lunarText}</div>
+      `;
       cell.addEventListener('click', () => handleDateClick(solarStr));
       grid.appendChild(cell);
     }
