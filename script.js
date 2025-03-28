@@ -19,17 +19,16 @@ window.onload = async function () {
     lunarYear.innerHTML += `<option value="${y}">${y}</option>`;
     solarYear.innerHTML += `<option value="${y}">${y}</option>`;
   }
-
   for (let m = 1; m <= 12; m++) {
     lunarMonth.innerHTML += `<option value="${m}">${m}</option>`;
     solarMonth.innerHTML += `<option value="${m}">${m}</option>`;
   }
 
-  lunarYear.addEventListener('change', updateDays);
-  lunarMonth.addEventListener('change', updateDays);
-  isLeap.addEventListener('change', updateDays);
+  lunarYear.addEventListener('change', updateLunarDays);
+  lunarMonth.addEventListener('change', updateLunarDays);
+  isLeap.addEventListener('change', updateLunarDays);
 
-  function updateDays() {
+  function updateLunarDays() {
     const y = parseInt(lunarYear.value);
     const m = parseInt(lunarMonth.value);
     const leap = isLeap.checked;
@@ -47,14 +46,16 @@ window.onload = async function () {
     }
   }
 
-  lunarYear.addEventListener('change', () => {
+  lunarYear.addEventListener('change', updateEndYears);
+  function updateEndYears() {
     const y = parseInt(lunarYear.value);
     endYearSelect.innerHTML = `<option value="">-- 연도 선택 --</option>`;
     for (let ey = y + 1; ey <= 2100; ey++) {
       endYearSelect.innerHTML += `<option value="${ey}">${ey}</option>`;
     }
-  });
+  }
 
+  // 입력 이벤트 처리
   document.querySelectorAll('input, select').forEach(el => {
     el.addEventListener('input', () => {
       checkInputs();
@@ -99,7 +100,6 @@ window.onload = async function () {
   function syncToLunar() {
     const sy = solarYear.value, sm = solarMonth.value, sd = solarDay.value;
     if (!sy || !sm || !sd) return;
-
     const key = `${sy}-${String(sm).padStart(2, '0')}-${String(sd).padStart(2, '0')}`;
     const match = lunarData.find(e => e.solar === key);
     if (match) {
@@ -107,7 +107,7 @@ window.onload = async function () {
       lunarYear.value = ly;
       lunarMonth.value = parseInt(lm);
       isLeap.checked = match.leap;
-      updateDays();
+      updateLunarDays();
       setTimeout(() => {
         lunarDay.value = parseInt(ld);
         updateConvertedList();
