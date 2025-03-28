@@ -1,4 +1,4 @@
-/* 기본 배경 및 전체 구조 */
+/* 기본 설정 */
 body {
   font-family: 'Apple SD Gothic Neo', 'Segoe UI', sans-serif;
   background-color: #f1f3f4;
@@ -15,7 +15,6 @@ body {
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
 }
 
-/* 제목 */
 h1 {
   font-size: 20px;
   text-align: center;
@@ -23,36 +22,65 @@ h1 {
   color: #202124;
 }
 
-/* 라벨 스타일 */
 label {
   font-weight: 600;
   color: #333;
   font-size: 14px;
 }
 
-/* 입력 요소 스타일 */
+/* 입력 필드 */
 input, select, textarea {
   font-size: 14px;
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   border-radius: 8px;
   box-sizing: border-box;
 }
 
-/* 텍스트박스 */
-input[type="text"],
-textarea {
+input[type="text"], textarea {
   width: 100%;
   margin: 8px 0 16px;
 }
 
-/* 텍스트박스 높이 */
 textarea {
   resize: vertical;
-  height: 100px;
+  height: 120px;
 }
 
-/* 버튼 스타일 */
+/* 한 줄 정렬 */
+.input-row.align-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+/* 드롭다운 폭 제한 */
+select {
+  min-width: 60px;
+  max-width: 100px;
+}
+
+/* 체크박스 */
+.inline-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+}
+
+/* 달력 아이콘 */
+.calendar-icon {
+  font-size: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 4px;
+  margin-left: 2px;
+}
+
+/* 다운로드 버튼 */
 button {
   width: 100%;
   background-color: #34a853;
@@ -76,57 +104,31 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* 라벨과 아이콘이 같은 줄에 표시 */
-.section-label-inline {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 16px;
-  margin-bottom: 4px;
+/* 달력 팝업 */
+#calendar {
+  background-color: #202124;
+  color: white;
+  padding: 12px;
+  border-radius: 12px;
+  margin-top: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 999;
 }
 
-/* 년월일 입력 줄 정렬 */
-.input-row.same-line {
+/* 달력 상단 연도/월 선택 */
+.calendar-header {
   display: flex;
-  flex-wrap: nowrap;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   margin-bottom: 8px;
 }
 
-/* 년월일 셀 크기 제한 */
-.input-row select {
-  min-width: 60px;
-  max-width: 100px;
-}
-
-/* 윤달 체크박스 */
-.inline-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 4px;
+.calendar-header select {
   font-size: 13px;
-}
-
-/* 달력 아이콘 버튼 */
-.calendar-icon {
-  font-size: 20px;
-  padding: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-/* 월간 달력 */
-#calendar {
-  display: none;
-  margin-top: 8px;
-  padding: 12px;
-  border-radius: 12px;
-  background-color: #202124;
-  color: white;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  z-index: 999;
+  padding: 4px;
+  border-radius: 6px;
+  border: 1px solid #888;
 }
 
 /* 달력 그리드 */
@@ -134,39 +136,37 @@ button:disabled {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 6px;
-  margin-top: 8px;
-}
-
-/* 각 셀 */
-.calendar-grid div {
-  text-align: center;
-  padding: 10px 0;
-  border-radius: 8px;
-  background-color: #3c4043;
-  font-size: 13px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-/* 마우스 오버 */
-.calendar-grid div:hover {
-  background-color: #5f6368;
 }
 
 /* 요일 헤더 */
 .calendar-grid .header {
   font-weight: bold;
-  background-color: transparent;
+  background: none;
   color: #e8eaed;
+  text-align: center;
+  font-size: 12px;
 }
 
-/* 빈 칸 */
+/* 날짜 셀 */
+.calendar-grid div {
+  background-color: #3c4043;
+  border-radius: 8px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.3;
+  cursor: pointer;
+}
+
+.calendar-grid div:hover {
+  background-color: #5f6368;
+}
+
 .calendar-grid div:empty {
   background: transparent;
   cursor: default;
 }
 
-/* 선택된 날짜 강조 */
 .calendar-grid div.selected {
   background-color: #8ab4f8;
   color: black;
