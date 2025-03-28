@@ -17,6 +17,7 @@ window.onload = async function () {
   const downloadBtn = document.getElementById('download-btn');
   const convertedArea = document.getElementById('converted-list');
 
+  // 연/월 옵션 채우기
   for (let y = 1881; y <= 2100; y++) {
     lunarYear.innerHTML += `<option value="${y}">${y}</option>`;
     solarYear.innerHTML += `<option value="${y}">${y}</option>`;
@@ -26,7 +27,7 @@ window.onload = async function () {
     solarMonth.innerHTML += `<option value="${m}">${m}</option>`;
   }
 
-  // ✅ 초기화면: 오늘 날짜 설정 (양력)
+  // ✅ 오늘 날짜로 양력 자동 세팅
   const today = new Date();
   const sy = today.getFullYear();
   const sm = today.getMonth() + 1;
@@ -36,9 +37,11 @@ window.onload = async function () {
   updateSolarDays();
   solarDay.value = sd;
 
-  // ✅ 오늘 날짜 기준으로 음력 자동 반영
-  syncToLunar(); // 음력 값을 자동 설정
+  // ✅ 오늘 양력을 기준으로 음력 자동 설정
+  syncToLunar();
   updateLunarDays();
+
+  // ✅ 일정 종료 연도도 초기화
   updateEndYears();
 
   lunarYear.addEventListener('change', () => {
@@ -50,7 +53,7 @@ window.onload = async function () {
 
   function updateEndYears() {
     const start = parseInt(lunarYear.value);
-    endYearSelect.innerHTML = `<option value="">연도 선택</option>`; // ✅ 수정 완료
+    endYearSelect.innerHTML = `<option value="">연도 선택</option>`;
     for (let y = start + 1; y <= 2100; y++) {
       endYearSelect.innerHTML += `<option value="${y}">${y}</option>`;
     }
@@ -61,16 +64,16 @@ window.onload = async function () {
     const m = parseInt(solarMonth.value);
     if (!y || !m) return;
 
-    const lastDay = new Date(y, m, 0).getDate();
-    const currentDay = parseInt(solarDay.value);
+    const last = new Date(y, m, 0).getDate();
+    const current = parseInt(solarDay.value);
 
     solarDay.innerHTML = `<option value="">일</option>`;
-    for (let d = 1; d <= lastDay; d++) {
-      solarDay.innerHTML += `<option value="${d}" ${d === currentDay ? 'selected' : ''}>${d}</option>`;
+    for (let d = 1; d <= last; d++) {
+      solarDay.innerHTML += `<option value="${d}" ${d === current ? 'selected' : ''}>${d}</option>`;
     }
 
-    if (currentDay && currentDay <= lastDay) {
-      solarDay.value = currentDay;
+    if (current && current <= last) {
+      solarDay.value = current;
     }
   }
 
@@ -86,25 +89,26 @@ window.onload = async function () {
       .map(d => parseInt(d.lunar.split('-')[2]));
 
     const maxDay = days.length > 0 ? Math.max(...days) : 30;
-    const currentDay = parseInt(lunarDay.value);
+    const current = parseInt(lunarDay.value);
 
     lunarDay.innerHTML = `<option value="">일</option>`;
     for (let d = 1; d <= maxDay; d++) {
-      lunarDay.innerHTML += `<option value="${d}" ${d === currentDay ? 'selected' : ''}>${d}</option>`;
+      lunarDay.innerHTML += `<option value="${d}" ${d === current ? 'selected' : ''}>${d}</option>`;
     }
 
-    if (currentDay && currentDay <= maxDay) {
-      lunarDay.value = currentDay;
+    if (current && current <= maxDay) {
+      lunarDay.value = current;
     }
   }
 
   solarYear.addEventListener('change', updateSolarDays);
   solarMonth.addEventListener('change', updateSolarDays);
 
+  // 이벤트 감지
   document.querySelectorAll('input, select').forEach(el => {
     el.addEventListener('change', () => {
-      syncToSolar();
-      syncToLunar();
+      syncToSolar(); // 음력 → 양력
+      syncToLunar(); // 양력 → 음력
       updateConvertedList();
       checkInputs();
     });
@@ -112,9 +116,7 @@ window.onload = async function () {
 
   function syncToSolar() {
     const y = lunarYear.value, m = lunarMonth.value, d = lunarDay.value;
-    if (!y || !m || !d) return;
     const leap = isLeap.checked;
-
     const key = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
     const match = lunarData.find(e => e.lunar === key && e.leap === leap);
     if (match) {
@@ -128,8 +130,6 @@ window.onload = async function () {
 
   function syncToLunar() {
     const sy = solarYear.value, sm = solarMonth.value, sd = solarDay.value;
-    if (!sy || !sm || !sd) return;
-
     const key = `${sy}-${String(sm).padStart(2, '0')}-${String(sd).padStart(2, '0')}`;
     const match = lunarData.find(e => e.solar === key);
     if (match) {
@@ -139,6 +139,7 @@ window.onload = async function () {
       isLeap.checked = match.leap;
       updateLunarDays();
       lunarDay.value = parseInt(ld);
+      updateEndYears(); // ✅ 자동 선택 시에도 종료연도 반영
     }
   }
 
@@ -151,9 +152,8 @@ window.onload = async function () {
       return;
     }
 
-    const fromY = parseInt(y);
     const results = [];
-    for (let year = fromY; year <= endY; year++) {
+    for (let year = parseInt(y); year <= endY; year++) {
       const key = `${year}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
       const match = lunarData.find(e => e.lunar === key && e.leap === leap);
       if (match) results.push(match.solar);
