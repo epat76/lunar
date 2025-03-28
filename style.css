@@ -1,51 +1,44 @@
 body {
   font-family: 'Apple SD Gothic Neo', 'Segoe UI', sans-serif;
+  background-color: #f1f3f4;
   margin: 0;
   padding: 0;
-  background-color: #f1f3f4;
 }
-
 .container {
   max-width: 500px;
   margin: 40px auto;
-  background: #ffffff;
+  background: #fff;
   padding: 24px;
   border-radius: 16px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
 }
-
 h1 {
   font-size: 20px;
   text-align: center;
   margin-bottom: 24px;
   color: #202124;
 }
-
 label {
   font-weight: 600;
   color: #333;
   font-size: 14px;
 }
-
-input[type="text"],
-input[type="date"],
-select,
-textarea {
-  width: 100%;
+input, select, textarea {
   font-size: 14px;
   padding: 10px;
-  margin-top: 8px;
-  margin-bottom: 16px;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-sizing: border-box;
 }
-
+input[type="text"],
+textarea {
+  width: 100%;
+  margin: 8px 0 16px;
+}
 textarea {
   resize: vertical;
   height: 100px;
 }
-
 button {
   width: 100%;
   background-color: #34a853;
@@ -59,25 +52,20 @@ button {
   margin-top: 12px;
   transition: background 0.3s;
 }
-
 button:hover:not(:disabled) {
   background-color: #2c8b45;
 }
-
 button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }
-
 .section-label-inline {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   gap: 6px;
   margin-top: 16px;
   margin-bottom: 4px;
 }
-
 .input-row.same-line {
   display: flex;
   flex-wrap: nowrap;
@@ -85,21 +73,16 @@ button:disabled {
   gap: 10px;
   margin-bottom: 8px;
 }
-
 .input-row select {
-  flex: 1;
-  min-width: 70px;
+  min-width: 60px;
   max-width: 100px;
 }
-
 .inline-checkbox {
   display: flex;
   align-items: center;
   gap: 4px;
   font-size: 13px;
 }
-
-/* 달력 아이콘 */
 .calendar-icon {
   font-size: 20px;
   padding: 0;
@@ -107,8 +90,6 @@ button:disabled {
   border: none;
   cursor: pointer;
 }
-
-/* 달력 영역 */
 #calendar {
   display: none;
   margin-top: 8px;
@@ -118,16 +99,13 @@ button:disabled {
   color: white;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   z-index: 999;
-  max-width: 100%;
 }
-
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 6px;
   margin-top: 8px;
 }
-
 .calendar-grid div {
   text-align: center;
   padding: 10px 0;
@@ -137,18 +115,15 @@ button:disabled {
   cursor: pointer;
   transition: background 0.2s;
 }
-
 .calendar-grid div:hover {
   background-color: #5f6368;
 }
-
-.calendar-grid div:empty {
-  background: transparent;
-  cursor: default;
-}
-
 .calendar-grid .header {
   font-weight: bold;
   background-color: transparent;
   color: #e8eaed;
+}
+.calendar-grid div:empty {
+  background: transparent;
+  cursor: default;
 }
