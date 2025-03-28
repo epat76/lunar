@@ -17,10 +17,10 @@
 
     <!-- 음력 날짜 입력 -->
     <div class="section-label-inline">
-      <label for="lunar-year">음력 날짜 입력</label>
+      <label for="lunar-year">음력날짜</label>
       <button id="calendar-toggle-lunar" class="calendar-icon" title="달력 보기">📅</button>
     </div>
-    <div class="input-row same-line">
+    <div class="input-row same-line" id="lunar-input-row">
       <select id="lunar-year"><option value="">년도</option></select>
       <select id="lunar-month"><option value="">월</option></select>
       <select id="lunar-day"><option value="">일</option></select>
@@ -29,10 +29,10 @@
 
     <!-- 양력 날짜 입력 -->
     <div class="section-label-inline">
-      <label for="solar-date">양력 날짜 입력</label>
+      <label for="solar-date">양력날짜</label>
       <button id="calendar-toggle-solar" class="calendar-icon" title="달력 보기">📅</button>
     </div>
-    <div class="input-row same-line">
+    <div class="input-row same-line" id="solar-input-row">
       <select id="solar-year"><option value="">년도</option></select>
       <select id="solar-month"><option value="">월</option></select>
       <select id="solar-day"><option value="">일</option></select>
@@ -53,7 +53,6 @@
     <button id="download-btn" disabled>ICS 파일 다운로드</button>
   </div>
 
-  <!-- 스크립트 -->
   <script src="script.js"></script>
   <script src="calendar.js"></script>
 </body>
