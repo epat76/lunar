@@ -29,7 +29,6 @@ label {
   margin: 14px 0 6px;
 }
 
-/* 인라인 라벨 */
 .checkbox-inline {
   display: flex;
   align-items: center;
@@ -38,7 +37,6 @@ label {
   font-size: 0.9rem;
 }
 
-/* 날짜 입력 박스 정렬 */
 .date-group {
   display: flex;
   align-items: center;
@@ -46,7 +44,6 @@ label {
   margin-bottom: 10px;
 }
 
-/* 각 드롭다운 너비 조절 */
 .date-group select {
   padding: 8px;
   font-size: 1rem;
@@ -54,8 +51,9 @@ label {
   border: 1px solid #ccc;
 }
 
+/* ✅ 폭 조정: 연도는 넓게, 월/일은 좁게 */
 #lunar-year, #solar-year {
-  width: 34%;
+  width: 40%;
 }
 #lunar-month, #solar-month {
   width: 28%;
@@ -64,7 +62,7 @@ label {
   width: 28%;
 }
 
-/* 입력창/텍스트박스 통일 */
+/* 입력창, 텍스트박스 통일 */
 input[type="text"],
 select,
 textarea {
