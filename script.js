@@ -15,6 +15,7 @@ window.onload = async function () {
   const downloadBtn = document.getElementById('download-btn');
   const convertedArea = document.getElementById('converted-list');
 
+  // 연도, 월 초기화
   for (let y = 1881; y <= 2100; y++) {
     lunarYear.innerHTML += `<option value="${y}">${y}</option>`;
     solarYear.innerHTML += `<option value="${y}">${y}</option>`;
