@@ -35,7 +35,7 @@ window.onload = async function () {
 
   function updateEndYears() {
     const start = parseInt(lunarYear.value);
-    endYearSelect.innerHTML = `<option value="">연도 선택</option>`; // ✅ 수정됨
+    endYearSelect.innerHTML = `<option value="">연도 선택</option>`; // ✅ 문구 수정
     for (let y = start + 1; y <= 2100; y++) {
       endYearSelect.innerHTML += `<option value="${y}">${y}</option>`;
     }
@@ -47,11 +47,11 @@ window.onload = async function () {
     if (!y || !m) return;
 
     const lastDay = new Date(y, m, 0).getDate();
-    const currentDay = solarDay.value;
+    const currentDay = parseInt(solarDay.value);
 
     solarDay.innerHTML = `<option value="">일</option>`;
     for (let d = 1; d <= lastDay; d++) {
-      solarDay.innerHTML += `<option value="${d}" ${d == currentDay ? 'selected' : ''}>${d}</option>`;
+      solarDay.innerHTML += `<option value="${d}" ${d === currentDay ? 'selected' : ''}>${d}</option>`;
     }
 
     if (currentDay && currentDay <= lastDay) {
@@ -71,16 +71,15 @@ window.onload = async function () {
       .map(d => parseInt(d.lunar.split('-')[2]));
 
     const maxDay = days.length > 0 ? Math.max(...days) : 30;
-    const currentDay = lunarDay.value;
+    const currentDay = parseInt(lunarDay.value);
 
     lunarDay.innerHTML = `<option value="">일</option>`;
     for (let d = 1; d <= maxDay; d++) {
-      lunarDay.innerHTML += `<option value="${d}" ${d == currentDay ? 'selected' : ''}>${d}</option>`;
+      lunarDay.innerHTML += `<option value="${d}" ${d === currentDay ? 'selected' : ''}>${d}</option>`;
     }
 
     if (currentDay && currentDay <= maxDay) {
       lunarDay.value = currentDay;
-      // ❌ dispatchEvent 제거로 무한 루프 방지
     }
   }
 
@@ -108,7 +107,9 @@ window.onload = async function () {
       solarYear.value = sy;
       solarMonth.value = parseInt(sm);
       updateSolarDays();
-      solarDay.value = parseInt(sd);
+      if (solarDay.value != sd) {
+        solarDay.value = parseInt(sd); // ✅ 중복 설정 방지
+      }
     }
   }
 
@@ -124,7 +125,9 @@ window.onload = async function () {
       lunarMonth.value = parseInt(lm);
       isLeap.checked = match.leap;
       updateLunarDays();
-      lunarDay.value = parseInt(ld);
+      if (lunarDay.value != ld) {
+        lunarDay.value = parseInt(ld); // ✅ 중복 설정 방지
+      }
     }
   }
 
