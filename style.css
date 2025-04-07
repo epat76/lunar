@@ -1,122 +1,89 @@
+/* 기본 폰트 및 배경 */
 body {
-  font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
-  background-color: #f2f4f8;
-  color: #222;
-  padding: 40px 16px;
+  font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
   margin: 0;
+  padding: 0;
+  background-color: #f8f9fa;
+  color: #212529;
 }
 
+/* 메인 컨테이너 */
 .container {
-  max-width: 520px;
-  margin: auto;
-  background: #fff;
-  padding: 32px;
+  max-width: 480px;
+  margin: 40px auto;
+  padding: 24px;
+  background-color: white;
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
+/* 제목 */
 h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1.2rem;
   text-align: center;
-  font-size: 1.4rem;
-  margin-bottom: 28px;
-  font-weight: 700;
 }
 
+/* 레이블 및 입력 필드 정렬 */
 label {
-  font-size: 0.95rem;
-  font-weight: 600;
   display: block;
-  margin: 14px 0 6px;
+  margin-bottom: 16px;
+  font-size: 0.95rem;
 }
 
-.checkbox-inline {
+label.inline {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-weight: normal;
-  font-size: 0.9rem;
+  gap: 8px;
+  font-size: 0.95rem;
+  margin-top: -8px;
+  margin-bottom: 16px;
 }
 
-.date-group {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.date-group select {
-  padding: 8px;
-  font-size: 1rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-/* ✅ 폭 조정: 연도는 넓게, 월/일은 좁게 */
-#lunar-year, #solar-year {
-  width: 40%;
-}
-#lunar-month, #solar-month {
-  width: 28%;
-}
-#lunar-day, #solar-day {
-  width: 28%;
-}
-
-/* 입력창, 텍스트박스 통일 */
 input[type="text"],
-select,
-textarea {
-  padding: 12px;
+input[type="date"],
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
   font-size: 1rem;
   box-sizing: border-box;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  transition: border-color 0.3s;
-  width: 100%;
 }
 
-input[type="text"]:focus,
-select:focus,
-textarea:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-textarea {
-  resize: vertical;
-  margin-top: 6px;
-}
-
+/* 버튼 스타일 */
 button {
-  display: block;
   width: 100%;
   padding: 12px;
   font-size: 1rem;
-  font-weight: 600;
-  color: #fff;
-  background-color: #38bdf8;
+  background-color: #4c6ef5;
+  color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: 20px;
+  transition: background-color 0.3s ease;
+  margin-top: 12px;
 }
 
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+button:hover {
+  background-color: #3b5bdb;
 }
 
-@media screen and (max-width: 480px) {
-  .date-group {
-    flex-direction: column;
-    align-items: stretch;
-  }
+/* 다운로드 링크 */
+#download-link {
+  display: block;
+  text-align: center;
+  margin-top: 16px;
+  text-decoration: none;
+  color: #4c6ef5;
+  font-weight: bold;
+}
 
-  #lunar-year, #solar-year,
-  #lunar-month, #solar-month,
-  #lunar-day, #solar-day {
-    width: 100%;
+/* 모바일 최적화 */
+@media (max-width: 480px) {
+  .container {
+    margin: 20px 16px;
+    padding: 16px;
   }
 }
