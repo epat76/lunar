@@ -1,8 +1,11 @@
 let lunarData = [];
 
-// 1. JSON 데이터 불러오기
-fetch('lunar_to_solar_from_1930.json')
-  .then(response => response.json())
+// 1. JSON 데이터 불러오기 (상대경로 수정됨)
+fetch('./lunar_to_solar_from_1930.json')
+  .then(response => {
+    if (!response.ok) throw new Error("JSON 파일 로드 실패");
+    return response.json();
+  })
   .then(data => {
     lunarData = data;
   })
@@ -11,7 +14,7 @@ fetch('lunar_to_solar_from_1930.json')
     console.error(err);
   });
 
-// 2. ICS 생성기 초기화 (ics.js 라이브러리 필요)
+// 2. 이벤트 처리
 document.getElementById('generate').addEventListener('click', () => {
   const title = document.getElementById('title').value.trim();
   const lunarDate = document.getElementById('lunar-date').value;
@@ -28,23 +31,24 @@ document.getElementById('generate').addEventListener('click', () => {
   const matchingEvents = [];
 
   for (let year = baseYear; year <= endYear; year++) {
-    const target = lunarData.find(d =>
+    const match = lunarData.find(d =>
       d.lunar === `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}` &&
       d.leap === isLeap
     );
 
-    if (target) {
+    if (match) {
+      const [y, m, d] = match.solar.split('-').map(Number);
       matchingEvents.push({
-        year: parseInt(target.solar.split('-')[0]),
-        month: parseInt(target.solar.split('-')[1]),
-        day: parseInt(target.solar.split('-')[2]),
+        year: y,
+        month: m,
+        day: d,
         title
       });
     }
   }
 
   if (matchingEvents.length === 0) {
-    alert("해당 조건에 맞는 변환 결과가 없습니다.");
+    alert("해당 조건에 맞는 양력 날짜를 찾을 수 없습니다.");
     return;
   }
 
