@@ -20,82 +20,108 @@ body {
 h1 {
     text-align: center;
     color: #333;
-    margin-bottom: 20px;
+    margin-bottom: 30px; /* 제목 아래 간격 증가 */
 }
 
 .input-group {
     margin-bottom: 15px;
 }
 
-label {
+.input-group label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px; /* 레이블 아래 간격 증가 */
     color: #555;
     font-weight: bold;
 }
 
-input[type="text"],
-input[type="number"] {
+.input-group input[type="text"],
+.input-group input[type="number"] {
     width: calc(100% - 12px);
-    padding: 8px;
+    padding: 10px; /* 입력 필드 패딩 증가 */
     border: 1px solid #ddd;
     border-radius: 4px;
     box-sizing: border-box;
-    margin-bottom: 8px;
+    margin-bottom: 10px; /* 입력 필드 아래 간격 증가 */
+    font-size: 16px; /* 입력 필드 폰트 크기 증가 */
+}
+
+.lunar-date {
+    display: flex;
+    align-items: center; /* 윤달 레이블과 체크박스를 같은 줄에 중앙 정렬 */
+    margin-bottom: 15px; /* 음력 날짜 그룹 아래 간격 추가 */
+}
+
+.lunar-date > label {
+    flex-shrink: 0; /* 레이블이 줄어들지 않도록 설정 */
+    margin-right: 10px;
+    margin-bottom: 0; /* 레이블 아래쪽 마진 제거 */
 }
 
 .lunar-date input[type="number"] {
-    width: calc(33% - 18px);
-    margin-right: 10px;
+    width: calc(33% - 10px);
+    margin-right: 5px;
+    margin-bottom: 0; /* 숫자 입력 필드 아래쪽 마진 제거 */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
 }
 
 .lunar-date input[type="number"]:last-child {
     margin-right: 0;
 }
 
-.lunar-date label[for="is-leap"] {
+.lunar-date .leap-container {
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+}
+
+.lunar-date .leap-container label[for="is-leap"] {
     display: inline-block;
-    margin-left: 10px;
+    margin-right: 5px;
+    margin-bottom: 0;
     font-weight: normal;
 }
 
-.lunar-date input[type="checkbox"] {
+.lunar-date .leap-container input[type="checkbox"] {
     vertical-align: middle;
-    margin-left: 5px;
-}
-
-textarea {
-    width: calc(100% - 12px);
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-bottom: 15px;
-    font-size: 14px;
 }
 
 .output-group h2 {
     color: #333;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    margin-top: 30px;
+    margin-bottom: 15px;
     text-align: center;
 }
 
-button {
-    background-color: #5cb85c;
-    color: white;
-    padding: 10px 15px;
-    border: none;
+textarea {
+    width: calc(100% - 12px);
+    padding: 10px;
+    border: 1px solid #ddd;
     border-radius: 4px;
-    cursor: pointer;
+    box-sizing: border-box;
+    margin-bottom: 20px;
     font-size: 16px;
+    line-height: 1.5;
+}
+
+button {
+    background-color: #007bff; /* 좀 더 현대적인 파란색 */
+    color: white;
+    padding: 12px 20px; /* 버튼 패딩 증가 */
+    border: none;
+    border-radius: 6px; /* 좀 더 둥근 테두리 */
+    cursor: pointer;
+    font-size: 18px; /* 버튼 폰트 크기 증가 */
     transition: background-color 0.3s ease;
     width: 100%;
     box-sizing: border-box;
 }
 
 button:hover {
-    background-color: #4cae4c;
+    background-color: #0056b3;
 }
 
 /* 반응형 디자인 */
@@ -105,8 +131,17 @@ button:hover {
         padding: 20px;
     }
 
+    .lunar-date {
+        flex-direction: column; /* 작은 화면에서 세로로 배치 */
+        align-items: flex-start;
+    }
+
+    .lunar-date > label {
+        margin-bottom: 5px;
+    }
+
     .lunar-date input[type="number"] {
-        width: calc(50% - 15px);
+        width: calc(50% - 10px);
         margin-right: 5px;
         margin-bottom: 5px;
     }
@@ -116,6 +151,11 @@ button:hover {
     }
 
     .lunar-date input[type="number"]:last-child {
-        width: calc(100% - 10px);
+        width: 100%;
+    }
+
+    .lunar-date .leap-container {
+        margin-left: 0;
+        margin-top: 10px;
     }
 }
