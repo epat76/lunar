@@ -37,31 +37,37 @@ document.addEventListener('DOMContentLoaded', function() {
         const isLeap = isLeapCheckbox.checked;
         const endYear = parseInt(endYearInput.value);
         let solarSchedules = [];
+        let errorMessage = '';
 
-        if (title && lunarYear && lunarMonth && lunarDay && endYear) {
+        if (title && !isNaN(lunarYear) && !isNaN(lunarMonth) && !isNaN(lunarDay) && !isNaN(endYear)) {
             for (let year = lunarYear; year <= endYear; year++) {
                 const solarDate = lunarToSolar(year, lunarMonth, lunarDay, isLeap);
                 if (solarDate) {
                     solarSchedules.push({ year: year, date: solarDate });
                 } else {
                     console.warn(`음력 ${year}-${lunarMonth}-${lunarDay} (윤달: ${isLeap}) 변환 실패`);
+                    errorMessage += `${year}년 음력 ${lunarMonth}월 ${lunarDay}일 (윤달: ${isLeap ? '있음' : '없음'})에 해당하는 양력 날짜를 찾을 수 없습니다.\n`;
                 }
             }
-            displaySolarSchedule(solarSchedules);
+            displaySolarSchedule(solarSchedules, errorMessage);
             return solarSchedules;
         } else {
-            alert('모든 필드를 입력해주세요.');
+            alert('모든 필드를 올바르게 입력해주세요.');
             return [];
         }
     }
 
-    function displaySolarSchedule(schedules) {
+    function displaySolarSchedule(schedules, errorMessage) {
         let displayText = '';
-        schedules.forEach(item => {
-            const year = item.year;
-            const date = item.date;
-            displayText += `${year}년 ${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일\n`;
-        });
+        if (schedules.length > 0) {
+            schedules.forEach(item => {
+                const date = item.date;
+                displayText += `${item.year}년 ${date.getMonth() + 1}월 ${date.getDate()}일\n`;
+            });
+        }
+        if (errorMessage) {
+            displayText += '\n' + errorMessage;
+        }
         solarScheduleTextarea.value = displayText;
     }
 
