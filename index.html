@@ -1,40 +1,40 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>음력 반복 일정 ICS 생성</title>
-  <link rel="stylesheet" href="style.css">
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>음력 반복 일정 생성기</title>
+    <link rel="stylesheet" href="style.css"> </head>
 <body>
-  <div class="container">
-    <h1>음력 반복 일정 ICS 생성기</h1>
+    <div class="container">
+        <h1>음력 반복 일정 생성</h1>
 
-    <label>
-      일정 제목
-      <input type="text" id="title" placeholder="예: 할머니 생신">
-    </label>
+        <div class="input-group">
+            <label for="event-title">일정 제목:</label>
+            <input type="text" id="event-title" placeholder="예: 아버지 생신">
+        </div>
 
-    <label>
-      음력 날짜
-      <input type="date" id="lunar-date">
-    </label>
+        <div class="input-group lunar-date">
+            <label>음력 날짜:</label>
+            <input type="number" id="lunar-year" placeholder="연도">
+            <input type="number" id="lunar-month" placeholder="월">
+            <input type="number" id="lunar-day" placeholder="일">
+            <label for="is-leap">윤달:</label>
+            <input type="checkbox" id="is-leap">
+        </div>
 
-    <label class="inline">
-      <input type="checkbox" id="leap-month">
-      윤달 여부
-    </label>
+        <div class="input-group">
+            <label for="end-year">일정 종료 연도:</label>
+            <input type="number" id="end-year" placeholder="예: 2040년">
+        </div>
 
-    <label>
-      반복 종료 연도
-      <input type="number" id="end-year" min="1930" max="2100" value="2030">
-    </label>
+        <div class="output-group">
+            <h2>변환된 양력 일정</h2>
+            <textarea id="solar-schedule" rows="5" readonly placeholder="변환된 양력 일정이 여기에 표시됩니다."></textarea>
+        </div>
 
-    <button id="generate">ICS 파일 생성</button>
-    <a id="download-link" style="display:none;" download="event.ics">ICS 파일 다운로드</a>
-  </div>
+        <button id="download-ics">ICS 파일 다운로드</button>
+    </div>
 
-  <script src="ics.js"></script>
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script> </body>
 </html>
