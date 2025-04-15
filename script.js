@@ -71,45 +71,53 @@ document.addEventListener('DOMContentLoaded', function() {
         solarScheduleTextarea.value = displayText;
     }
 
-    function generateIcsFile(schedules, title) {
-        if (!title) {
-            title = '반복 일정';
-        }
-        let icsContent =
-            "BEGIN:VCALENDAR\n" +
-            "VERSION:2.0\n" +
-            "PRODID:-//Your Company//Your Product//EN\n" +
-            "CALSCALE:GREGORIAN\n";
-
-        schedules.forEach(item => {
-            const date = item.date;
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            const formattedDate = `${year}${month}${day}T000000Z`;
-
-            icsContent +=
-                "BEGIN:VEVENT\n" +
-                "UID:" + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) + "\n" +
-                "DTSTAMP:" + formattedDate + "\n" +
-                "DTSTART:" + formattedDate + "\n" +
-                "DTEND:" + formattedDate + "\n" +
-                "SUMMARY:" + title + "\n" +
-                "END:VEVENT\n";
-        });
-
-        icsContent += "END:VCALENDAR";
-
-        const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `${title.replace(/ /g, '_')}.ics`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
+function generateIcsFile(schedules, title) {
+    if (!title) {
+        title = '반복 일정';
     }
+    let icsContent =
+        "BEGIN:VCALENDAR\n" +
+        "VERSION:2.0\n" +
+        "PRODID:-//Your Company//Your Product//EN\n" +
+        "CALSCALE:GREGORIAN\n";
+
+    schedules.forEach(item => {
+        const date = item.date;
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const formattedStartDate = `${year}${month}${day}`;
+
+        // 하루 종일 일정의 종료일은 시작일 다음 날
+        const nextDay = new Date(date);
+        nextDay.setDate(date.getDate() + 1);
+        const endYear = nextDay.getFullYear();
+        const endMonth = String(nextDay.getMonth() + 1).padStart(2, '0');
+        const endDay = String(nextDay.getDate()).padStart(2, '0');
+        const formattedEndDate = `${endYear}${endMonth}${endDay}`;
+
+        icsContent +=
+            "BEGIN:VEVENT\n" +
+            "UID:" + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) + "\n" +
+            "DTSTAMP:" + formattedStartDate + "T000000Z\n" + // 타임존 정보 추가 (UTC)
+            "DTSTART;VALUE=DATE:" + formattedStartDate + "\n" +
+            "DTEND;VALUE=DATE:" + formattedEndDate + "\n" +
+            "SUMMARY:" + title + "\n" +
+            "END:VEVENT\n";
+    });
+
+    icsContent += "END:VCALENDAR";
+
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${title.replace(/ /g, '_')}.ics`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+}
 
     downloadIcsButton.addEventListener('click', function() {
         const schedules = generateSolarSchedule();
